@@ -1,0 +1,559 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00000001 /* CoolifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000001 /* CoolifyApp.swift */; };
+		00000002 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000002 /* AppState.swift */; };
+		00000003 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000003 /* KeychainManager.swift */; };
+		00000004 /* CoolifyInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000004 /* CoolifyInstance.swift */; };
+		00000005 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000005 /* Server.swift */; };
+		00000006 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000006 /* Application.swift */; };
+		00000007 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000007 /* Database.swift */; };
+		00000008 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000008 /* Service.swift */; };
+		00000009 /* Deployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000009 /* Deployment.swift */; };
+		0000000A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000000A /* Project.swift */; };
+		0000000B /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000000B /* Team.swift */; };
+		0000000C /* CoolifyAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000000C /* CoolifyAPIClient.swift */; };
+		0000000D /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000000D /* MainTabView.swift */; };
+		0000000E /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000000E /* OnboardingView.swift */; };
+		0000000F /* AddInstanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000000F /* AddInstanceView.swift */; };
+		00000010 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000010 /* DashboardView.swift */; };
+		00000011 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000011 /* DashboardViewModel.swift */; };
+		00000012 /* ServersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000012 /* ServersView.swift */; };
+		00000013 /* ServerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000013 /* ServerDetailView.swift */; };
+		00000014 /* ServersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000014 /* ServersViewModel.swift */; };
+		00000015 /* ApplicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000015 /* ApplicationsView.swift */; };
+		00000016 /* ApplicationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000016 /* ApplicationDetailView.swift */; };
+		00000017 /* ApplicationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000017 /* ApplicationsViewModel.swift */; };
+		00000018 /* DatabasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000018 /* DatabasesView.swift */; };
+		00000019 /* DatabasesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000019 /* DatabasesViewModel.swift */; };
+		0000001A /* ServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000001A /* ServicesView.swift */; };
+		0000001B /* ServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000001B /* ServicesViewModel.swift */; };
+		0000001C /* DeploymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000001C /* DeploymentsView.swift */; };
+		0000001D /* DeploymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000001D /* DeploymentsViewModel.swift */; };
+		0000001E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1000001E /* SettingsView.swift */; };
+		0000001F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1000001F /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		10000000 /* Coolify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Coolify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		10000001 /* CoolifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolifyApp.swift; sourceTree = "<group>"; };
+		10000002 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		10000003 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		10000004 /* CoolifyInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolifyInstance.swift; sourceTree = "<group>"; };
+		10000005 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		10000006 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		10000007 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		10000008 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		10000009 /* Deployment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deployment.swift; sourceTree = "<group>"; };
+		1000000A /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		1000000B /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		1000000C /* CoolifyAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolifyAPIClient.swift; sourceTree = "<group>"; };
+		1000000D /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		1000000E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		1000000F /* AddInstanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInstanceView.swift; sourceTree = "<group>"; };
+		10000010 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		10000011 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		10000012 /* ServersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersView.swift; sourceTree = "<group>"; };
+		10000013 /* ServerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDetailView.swift; sourceTree = "<group>"; };
+		10000014 /* ServersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersViewModel.swift; sourceTree = "<group>"; };
+		10000015 /* ApplicationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationsView.swift; sourceTree = "<group>"; };
+		10000016 /* ApplicationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDetailView.swift; sourceTree = "<group>"; };
+		10000017 /* ApplicationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationsViewModel.swift; sourceTree = "<group>"; };
+		10000018 /* DatabasesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabasesView.swift; sourceTree = "<group>"; };
+		10000019 /* DatabasesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabasesViewModel.swift; sourceTree = "<group>"; };
+		1000001A /* ServicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesView.swift; sourceTree = "<group>"; };
+		1000001B /* ServicesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesViewModel.swift; sourceTree = "<group>"; };
+		1000001C /* DeploymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsView.swift; sourceTree = "<group>"; };
+		1000001D /* DeploymentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeploymentsViewModel.swift; sourceTree = "<group>"; };
+		1000001E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1000001F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		20000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		30000000 = {
+			isa = PBXGroup;
+			children = (
+				30000001 /* Sources */,
+				30000002 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		30000001 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				10000001 /* CoolifyApp.swift */,
+				30000003 /* Core */,
+				30000004 /* Models */,
+				30000005 /* API */,
+				30000006 /* ViewModels */,
+				30000007 /* Views */,
+				30000008 /* Resources */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		30000002 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				10000000 /* Coolify.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		30000003 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				10000002 /* AppState.swift */,
+				10000003 /* KeychainManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		30000004 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				10000004 /* CoolifyInstance.swift */,
+				10000005 /* Server.swift */,
+				10000006 /* Application.swift */,
+				10000007 /* Database.swift */,
+				10000008 /* Service.swift */,
+				10000009 /* Deployment.swift */,
+				1000000A /* Project.swift */,
+				1000000B /* Team.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		30000005 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				1000000C /* CoolifyAPIClient.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		30000006 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				10000011 /* DashboardViewModel.swift */,
+				10000014 /* ServersViewModel.swift */,
+				10000017 /* ApplicationsViewModel.swift */,
+				10000019 /* DatabasesViewModel.swift */,
+				1000001B /* ServicesViewModel.swift */,
+				1000001D /* DeploymentsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		30000007 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1000000D /* MainTabView.swift */,
+				30000009 /* Onboarding */,
+				3000000A /* Dashboard */,
+				3000000B /* Servers */,
+				3000000C /* Applications */,
+				3000000D /* Databases */,
+				3000000E /* Services */,
+				3000000F /* Deployments */,
+				30000010 /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		30000008 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1000001F /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		30000009 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				1000000E /* OnboardingView.swift */,
+				1000000F /* AddInstanceView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		3000000A /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				10000010 /* DashboardView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		3000000B /* Servers */ = {
+			isa = PBXGroup;
+			children = (
+				10000012 /* ServersView.swift */,
+				10000013 /* ServerDetailView.swift */,
+			);
+			path = Servers;
+			sourceTree = "<group>";
+		};
+		3000000C /* Applications */ = {
+			isa = PBXGroup;
+			children = (
+				10000015 /* ApplicationsView.swift */,
+				10000016 /* ApplicationDetailView.swift */,
+			);
+			path = Applications;
+			sourceTree = "<group>";
+		};
+		3000000D /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				10000018 /* DatabasesView.swift */,
+			);
+			path = Databases;
+			sourceTree = "<group>";
+		};
+		3000000E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				1000001A /* ServicesView.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		3000000F /* Deployments */ = {
+			isa = PBXGroup;
+			children = (
+				1000001C /* DeploymentsView.swift */,
+			);
+			path = Deployments;
+			sourceTree = "<group>";
+		};
+		30000010 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1000001E /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		40000001 /* Coolify */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50000001 /* Build configuration list for PBXNativeTarget "Coolify" */;
+			buildPhases = (
+				40000002 /* Sources */,
+				20000001 /* Frameworks */,
+				40000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Coolify;
+			productName = Coolify;
+			productReference = 10000000 /* Coolify.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		60000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					40000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 50000002 /* Build configuration list for PBXProject "Coolify" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 30000000;
+			productRefGroup = 30000002 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				40000001 /* Coolify */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		40000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0000001F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		40000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00000001 /* CoolifyApp.swift in Sources */,
+				00000002 /* AppState.swift in Sources */,
+				00000003 /* KeychainManager.swift in Sources */,
+				00000004 /* CoolifyInstance.swift in Sources */,
+				00000005 /* Server.swift in Sources */,
+				00000006 /* Application.swift in Sources */,
+				00000007 /* Database.swift in Sources */,
+				00000008 /* Service.swift in Sources */,
+				00000009 /* Deployment.swift in Sources */,
+				0000000A /* Project.swift in Sources */,
+				0000000B /* Team.swift in Sources */,
+				0000000C /* CoolifyAPIClient.swift in Sources */,
+				0000000D /* MainTabView.swift in Sources */,
+				0000000E /* OnboardingView.swift in Sources */,
+				0000000F /* AddInstanceView.swift in Sources */,
+				00000010 /* DashboardView.swift in Sources */,
+				00000011 /* DashboardViewModel.swift in Sources */,
+				00000012 /* ServersView.swift in Sources */,
+				00000013 /* ServerDetailView.swift in Sources */,
+				00000014 /* ServersViewModel.swift in Sources */,
+				00000015 /* ApplicationsView.swift in Sources */,
+				00000016 /* ApplicationDetailView.swift in Sources */,
+				00000017 /* ApplicationsViewModel.swift in Sources */,
+				00000018 /* DatabasesView.swift in Sources */,
+				00000019 /* DatabasesViewModel.swift in Sources */,
+				0000001A /* ServicesView.swift in Sources */,
+				0000001B /* ServicesViewModel.swift in Sources */,
+				0000001C /* DeploymentsView.swift in Sources */,
+				0000001D /* DeploymentsViewModel.swift in Sources */,
+				0000001E /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		70000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		70000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		70000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.coolify.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		70000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.coolify.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		50000001 /* Build configuration list for PBXNativeTarget "Coolify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70000003 /* Debug */,
+				70000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50000002 /* Build configuration list for PBXProject "Coolify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70000001 /* Debug */,
+				70000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 60000001 /* Project object */;
+}
