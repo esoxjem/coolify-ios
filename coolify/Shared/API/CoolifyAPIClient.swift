@@ -80,12 +80,26 @@ actor CoolifyAPIClient {
             request.httpBody = body
         }
 
+        #if DEBUG
+        let requestId = NetworkLogger.shared.logRequest(request)
+        let startTime = CFAbsoluteTimeGetCurrent()
+        #endif
+
         let (data, response): (Data, URLResponse)
         do {
             (data, response) = try await session.data(for: request)
         } catch {
+            #if DEBUG
+            NetworkLogger.shared.logResponse(data: nil, response: nil, error: error,
+                duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
+            #endif
             throw APIError.networkError(error)
         }
+
+        #if DEBUG
+        NetworkLogger.shared.logResponse(data: data, response: response, error: nil,
+            duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
+        #endif
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
@@ -126,7 +140,26 @@ actor CoolifyAPIClient {
             request.httpBody = body
         }
 
-        let (data, response) = try await session.data(for: request)
+        #if DEBUG
+        let requestId = NetworkLogger.shared.logRequest(request)
+        let startTime = CFAbsoluteTimeGetCurrent()
+        #endif
+
+        let (data, response): (Data, URLResponse)
+        do {
+            (data, response) = try await session.data(for: request)
+        } catch {
+            #if DEBUG
+            NetworkLogger.shared.logResponse(data: nil, response: nil, error: error,
+                duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
+            #endif
+            throw APIError.networkError(error)
+        }
+
+        #if DEBUG
+        NetworkLogger.shared.logResponse(data: data, response: response, error: nil,
+            duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
+        #endif
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
@@ -154,7 +187,26 @@ actor CoolifyAPIClient {
         request.httpMethod = "GET"
         request.timeoutInterval = 10
 
-        let (_, response) = try await session.data(for: request)
+        #if DEBUG
+        let requestId = NetworkLogger.shared.logRequest(request)
+        let startTime = CFAbsoluteTimeGetCurrent()
+        #endif
+
+        let (data, response): (Data, URLResponse)
+        do {
+            (data, response) = try await session.data(for: request)
+        } catch {
+            #if DEBUG
+            NetworkLogger.shared.logResponse(data: nil, response: nil, error: error,
+                duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
+            #endif
+            throw APIError.networkError(error)
+        }
+
+        #if DEBUG
+        NetworkLogger.shared.logResponse(data: data, response: response, error: nil,
+            duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
+        #endif
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
