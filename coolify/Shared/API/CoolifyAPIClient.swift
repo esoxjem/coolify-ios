@@ -309,6 +309,21 @@ actor CoolifyAPIClient {
         try await request(endpoint: "/deployments/\(uuid)")
     }
 
+    func getApplicationDeployments(uuid: String, skip: Int = 0, take: Int = 50) async throws -> [Deployment] {
+        struct DeploymentsResponse: Codable {
+            let count: Int
+            let deployments: [Deployment]
+        }
+        let response: DeploymentsResponse = try await request(
+            endpoint: "/deployments/applications/\(uuid)",
+            queryItems: [
+                URLQueryItem(name: "skip", value: String(skip)),
+                URLQueryItem(name: "take", value: String(take))
+            ]
+        )
+        return response.deployments
+    }
+
     func deploy(uuid: String? = nil, tag: String? = nil) async throws -> DeployResponse {
         var queryItems: [URLQueryItem] = []
         if let uuid = uuid {

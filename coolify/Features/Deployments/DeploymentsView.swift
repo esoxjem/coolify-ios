@@ -46,7 +46,7 @@ struct DeploymentsView: View {
             Label("No Deployments", systemImage: "arrow.triangle.2.circlepath")
                 .font(.coolifyMonoHeadline)
         } description: {
-            Text("No active deployments found")
+            Text("No deployment history found")
                 .font(.coolifyMonoSubheadline)
         }
     }

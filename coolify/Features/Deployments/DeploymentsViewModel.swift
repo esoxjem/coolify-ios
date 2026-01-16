@@ -29,7 +29,7 @@ final class DeploymentsViewModel {
     func loadDeployments() async {
         guard let client = client else { return }
         beginLoading()
-        await fetchDeployments(using: client)
+        await fetchAllDeployments(using: client)
         endLoading()
     }
 
@@ -50,9 +50,31 @@ final class DeploymentsViewModel {
         isLoading = false
     }
 
-    private func fetchDeployments(using client: CoolifyAPIClient) async {
+    private func fetchAllDeployments(using client: CoolifyAPIClient) async {
         do {
-            deployments = try await client.getDeployments()
+            let applications = try await client.getApplications()
+
+            var allDeployments: [Deployment] = []
+
+            await withTaskGroup(of: [Deployment].self) { group in
+                for app in applications {
+                    group.addTask {
+                        (try? await client.getApplicationDeployments(uuid: app.uuid)) ?? []
+                    }
+                }
+
+                for await appDeployments in group {
+                    allDeployments.append(contentsOf: appDeployments)
+                }
+            }
+
+            // Sort by creation date, most recent first
+            deployments = allDeployments.sorted { first, second in
+                guard let firstDate = first.createdAt, let secondDate = second.createdAt else {
+                    return first.createdAt != nil
+                }
+                return firstDate > secondDate
+            }
         } catch {
             self.error = error.localizedDescription
         }

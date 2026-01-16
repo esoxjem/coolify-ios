@@ -4,11 +4,10 @@ struct DeploymentRowView: View {
     let deployment: Deployment
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .top, spacing: 12) {
             statusIcon
             deploymentInfo
-            Spacer()
-            statusBadge
+            Spacer(minLength: 0)
         }
         .padding(.vertical, 4)
     }
@@ -25,14 +24,14 @@ struct DeploymentRowView: View {
 
     private var deploymentInfo: some View {
         VStack(alignment: .leading, spacing: 4) {
-            applicationName
+            Text(deployment.displayName)
+                .font(.coolifyMonoHeadline)
+                .lineLimit(1)
+
+            statusBadge
+
             metadataRow
         }
-    }
-
-    private var applicationName: some View {
-        Text(deployment.displayName)
-            .font(.coolifyMonoHeadline)
     }
 
     private var metadataRow: some View {

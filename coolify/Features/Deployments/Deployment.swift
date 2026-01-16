@@ -1,15 +1,12 @@
 import Foundation
 
-struct Deployment: Identifiable, Codable, Hashable {
+struct Deployment: Identifiable, Hashable {
     let deploymentUuid: String
 
     // Use deploymentUuid as Identifiable id
     var id: String { deploymentUuid }
-    let applicationId: Int?
     let applicationName: String?
     let serverName: String?
-    let serverId: Int?
-    let pullRequestId: Int?
     let forceRebuild: Bool?
     let commit: String?
     let status: String?
@@ -22,11 +19,8 @@ struct Deployment: Identifiable, Codable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case deploymentUuid = "deployment_uuid"
-        case applicationId = "application_id"
         case applicationName = "application_name"
         case serverName = "server_name"
-        case serverId = "server_id"
-        case pullRequestId = "pull_request_id"
         case forceRebuild = "force_rebuild"
         case commit, status
         case isWebhook = "is_webhook"
@@ -36,7 +30,27 @@ struct Deployment: Identifiable, Codable, Hashable {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }
+}
 
+extension Deployment: Codable {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        deploymentUuid = try container.decode(String.self, forKey: .deploymentUuid)
+        applicationName = try container.decodeIfPresent(String.self, forKey: .applicationName)
+        serverName = try container.decodeIfPresent(String.self, forKey: .serverName)
+        forceRebuild = try container.decodeIfPresent(Bool.self, forKey: .forceRebuild)
+        commit = try container.decodeIfPresent(String.self, forKey: .commit)
+        status = try container.decodeIfPresent(String.self, forKey: .status)
+        isWebhook = try container.decodeIfPresent(Bool.self, forKey: .isWebhook)
+        isApi = try container.decodeIfPresent(Bool.self, forKey: .isApi)
+        deploymentUrl = try container.decodeIfPresent(String.self, forKey: .deploymentUrl)
+        logs = try container.decodeIfPresent(String.self, forKey: .logs)
+        createdAt = try container.decodeIfPresent(String.self, forKey: .createdAt)
+        updatedAt = try container.decodeIfPresent(String.self, forKey: .updatedAt)
+    }
+}
+
+extension Deployment {
     var statusColor: String {
         switch normalizedStatus {
         case "finished", "success":
