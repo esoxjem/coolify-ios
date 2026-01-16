@@ -61,9 +61,9 @@ struct DeploymentRowView: View {
 
     var statusColor: Color {
         switch deployment.statusColor {
-        case "green": return .green
-        case "yellow": return .yellow
-        case "red": return .red
+        case "green": return .coolifySuccess
+        case "yellow": return .coolifyWarning
+        case "red": return .coolifyError
         default: return .gray
         }
     }
@@ -148,22 +148,13 @@ struct DeploymentDetailView: View {
                 }
                 .padding()
                 .background {
-                    MeshGradient(
-                        width: 3,
-                        height: 3,
-                        points: [
-                            [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
-                            [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
-                            [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
-                        ],
-                        colors: [
-                            .blue.opacity(0.1), .cyan.opacity(0.1), .blue.opacity(0.1),
-                            .cyan.opacity(0.05), .blue.opacity(0.1), .cyan.opacity(0.05),
-                            .blue.opacity(0.1), .cyan.opacity(0.1), .blue.opacity(0.1)
-                        ]
-                    )
+                    MeshGradient.coolifyDeployment()
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 16))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(.coolifyDeployment.opacity(0.3), lineWidth: 1)
+                }
 
                 // Details
                 InfoCard(title: "Details") {

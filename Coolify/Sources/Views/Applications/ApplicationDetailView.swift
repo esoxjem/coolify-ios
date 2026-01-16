@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct ApplicationDetailView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) private var appState
     let application: Application
-    @StateObject private var viewModel = ApplicationDetailViewModel()
+    @State private var viewModel = ApplicationDetailViewModel()
     @State private var selectedTab = 0
 
     var body: some View {
@@ -57,7 +57,7 @@ struct ApplicationDetailView: View {
 
 struct ApplicationHeaderView: View {
     let application: Application
-    @ObservedObject var viewModel: ApplicationDetailViewModel
+    var viewModel: ApplicationDetailViewModel
 
     var body: some View {
         VStack(spacing: 16) {
@@ -88,7 +88,7 @@ struct ApplicationHeaderView: View {
                 HStack(spacing: 12) {
                     ActionButton(
                         icon: application.isRunning ? "stop.fill" : "play.fill",
-                        color: application.isRunning ? .red : .green,
+                        color: application.isRunning ? .coolifyError : .coolifySuccess,
                         isLoading: viewModel.isPerformingAction
                     ) {
                         Task {
@@ -102,7 +102,7 @@ struct ApplicationHeaderView: View {
 
                     ActionButton(
                         icon: "arrow.clockwise",
-                        color: .orange,
+                        color: .coolifyWarning,
                         isLoading: viewModel.isPerformingAction
                     ) {
                         Task {
@@ -112,7 +112,7 @@ struct ApplicationHeaderView: View {
 
                     ActionButton(
                         icon: "paperplane.fill",
-                        color: .blue,
+                        color: .coolifyPurple,
                         isLoading: viewModel.isPerformingAction
                     ) {
                         Task {
@@ -123,7 +123,14 @@ struct ApplicationHeaderView: View {
             }
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background {
+            MeshGradient.coolifyApplication()
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay {
+            RoundedRectangle(cornerRadius: 16)
+                .strokeBorder(.coolifySuccess.opacity(0.3), lineWidth: 1)
+        }
     }
 }
 
@@ -229,8 +236,8 @@ struct InfoCard<Content: View>: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(12)
+        .background(.background.secondary)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -252,7 +259,7 @@ struct InfoRow: View {
 }
 
 struct ApplicationLogsTab: View {
-    @ObservedObject var viewModel: ApplicationDetailViewModel
+    var viewModel: ApplicationDetailViewModel
     @State private var lineCount: Int = 100
 
     var body: some View {
@@ -308,7 +315,7 @@ struct ApplicationLogsTab: View {
 }
 
 struct ApplicationEnvVarsTab: View {
-    @ObservedObject var viewModel: ApplicationDetailViewModel
+    var viewModel: ApplicationDetailViewModel
     @State private var showAddEnvVar = false
     @State private var newKey = ""
     @State private var newValue = ""
@@ -368,7 +375,7 @@ struct ApplicationEnvVarsTab: View {
 }
 
 struct AddEnvVarSheet: View {
-    @ObservedObject var viewModel: ApplicationDetailViewModel
+    var viewModel: ApplicationDetailViewModel
     @Binding var isPresented: Bool
     @State private var key = ""
     @State private var value = ""
@@ -409,6 +416,7 @@ struct AddEnvVarSheet: View {
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     NavigationStack {
         ApplicationDetailView(application: Application(
             id: 1,
@@ -438,6 +446,6 @@ struct AddEnvVarSheet: View {
             createdAt: nil,
             updatedAt: nil
         ))
-        .environmentObject(AppState())
+        .environment(appState)
     }
 }

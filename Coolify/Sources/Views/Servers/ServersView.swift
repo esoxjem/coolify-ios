@@ -64,10 +64,10 @@ struct ServerRowView: View {
         HStack(spacing: 12) {
             Image(systemName: "server.rack")
                 .font(.title2)
-                .foregroundStyle(.blue)
+                .foregroundStyle(.coolifyServer)
                 .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
-                .background(Color.blue.opacity(0.1))
+                .background(Color.coolifyServer.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 4) {
@@ -94,9 +94,9 @@ struct StatusBadge: View {
 
     var statusColor: Color {
         switch color {
-        case "green": return .green
-        case "yellow": return .yellow
-        case "red": return .red
+        case "green": return .coolifySuccess
+        case "yellow": return .coolifyWarning
+        case "red": return .coolifyError
         default: return .gray
         }
     }

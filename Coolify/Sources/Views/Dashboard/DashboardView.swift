@@ -23,7 +23,7 @@ struct DashboardView: View {
                             title: "Servers",
                             value: "\(viewModel.serverCount)",
                             icon: "server.rack",
-                            color: .blue,
+                            color: .coolifyServer,
                             isLoading: viewModel.isLoading
                         )
                         .matchedTransitionSource(id: "servers", in: namespace)
@@ -32,7 +32,7 @@ struct DashboardView: View {
                             title: "Applications",
                             value: "\(viewModel.applicationCount)",
                             icon: "app.badge",
-                            color: .green,
+                            color: .coolifySuccess,
                             isLoading: viewModel.isLoading
                         )
                         .matchedTransitionSource(id: "apps", in: namespace)
@@ -41,7 +41,7 @@ struct DashboardView: View {
                             title: "Databases",
                             value: "\(viewModel.databaseCount)",
                             icon: "cylinder",
-                            color: .orange,
+                            color: .coolifyDatabase,
                             isLoading: viewModel.isLoading
                         )
                         .matchedTransitionSource(id: "databases", in: namespace)
@@ -50,7 +50,7 @@ struct DashboardView: View {
                             title: "Services",
                             value: "\(viewModel.serviceCount)",
                             icon: "square.stack.3d.up",
-                            color: .purple,
+                            color: .coolifyPurple,
                             isLoading: viewModel.isLoading
                         )
                         .matchedTransitionSource(id: "services", in: namespace)
@@ -70,7 +70,7 @@ struct DashboardView: View {
                                 } label: {
                                     Text("See All")
                                         .font(.subheadline)
-                                        .foregroundStyle(.tint)
+                                        .foregroundStyle(.coolifyPurple)
                                 }
                             }
                             .padding(.horizontal)
@@ -96,7 +96,7 @@ struct DashboardView: View {
                                 } label: {
                                     Text("See All")
                                         .font(.subheadline)
-                                        .foregroundStyle(.tint)
+                                        .foregroundStyle(.coolifyPurple)
                                 }
                             }
                             .padding(.horizontal)
@@ -135,6 +135,7 @@ struct DashboardView: View {
                 Text(viewModel.error ?? "")
             }
         }
+        .tint(.coolifyPurple)
         .task {
             if let instance = appState.currentInstance {
                 viewModel.setInstance(instance)
@@ -171,32 +172,19 @@ struct InstanceHeaderView: View {
                 Spacer()
 
                 Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
+                    .foregroundStyle(.coolifySuccess)
                     .font(.title2)
                     .symbolEffect(.pulse, options: .repeating, value: isConnected)
             }
         }
         .padding()
         .background {
-            MeshGradient(
-                width: 3,
-                height: 3,
-                points: [
-                    [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
-                    [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
-                    [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
-                ],
-                colors: [
-                    .blue.opacity(0.1), .purple.opacity(0.1), .blue.opacity(0.1),
-                    .cyan.opacity(0.1), .blue.opacity(0.15), .purple.opacity(0.1),
-                    .blue.opacity(0.1), .cyan.opacity(0.1), .blue.opacity(0.1)
-                ]
-            )
+            MeshGradient.coolifyHeader()
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay {
             RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(.quaternary, lineWidth: 1)
+                .strokeBorder(.coolifyPurple.opacity(0.3), lineWidth: 1)
         }
         .padding(.horizontal)
     }
@@ -240,7 +228,7 @@ struct StatCard: View {
         }
         .overlay {
             RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(.quaternary, lineWidth: 1)
+                .strokeBorder(color.opacity(0.2), lineWidth: 1)
         }
         .onAppear {
             appeared = true

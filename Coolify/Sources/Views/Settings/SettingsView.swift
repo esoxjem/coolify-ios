@@ -17,7 +17,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
                                 Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
+                                    .foregroundStyle(.coolifySuccess)
                                     .symbolEffect(.pulse)
                                 Text(instance.name)
                                     .fontWeight(.semibold)

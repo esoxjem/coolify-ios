@@ -52,7 +52,7 @@ struct ApplicationsView: View {
                                 } label: {
                                     Label("Stop", systemImage: "stop.fill")
                                 }
-                                .tint(.red)
+                                .tint(.coolifyError)
                             } else {
                                 Button {
                                     Task {
@@ -61,7 +61,7 @@ struct ApplicationsView: View {
                                 } label: {
                                     Label("Start", systemImage: "play.fill")
                                 }
-                                .tint(.green)
+                                .tint(.coolifySuccess)
                             }
                         }
                         .swipeActions(edge: .leading) {
@@ -72,7 +72,7 @@ struct ApplicationsView: View {
                             } label: {
                                 Label("Restart", systemImage: "arrow.clockwise")
                             }
-                            .tint(.orange)
+                            .tint(.coolifyWarning)
                         }
                     }
                     .listStyle(.insetGrouped)
@@ -110,10 +110,10 @@ struct ApplicationRowView: View {
         HStack(spacing: 12) {
             Image(systemName: "app.badge")
                 .font(.title2)
-                .foregroundStyle(.green)
+                .foregroundStyle(.coolifySuccess)
                 .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
-                .background(Color.green.opacity(0.1))
+                .background(Color.coolifySuccess.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 4) {

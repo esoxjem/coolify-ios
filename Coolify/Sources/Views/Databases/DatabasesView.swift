@@ -39,7 +39,7 @@ struct DatabasesView: View {
                                 } label: {
                                     Label("Stop", systemImage: "stop.fill")
                                 }
-                                .tint(.red)
+                                .tint(.coolifyError)
                             } else {
                                 Button {
                                     Task {
@@ -48,7 +48,7 @@ struct DatabasesView: View {
                                 } label: {
                                     Label("Start", systemImage: "play.fill")
                                 }
-                                .tint(.green)
+                                .tint(.coolifySuccess)
                             }
                         }
                     }
@@ -85,10 +85,10 @@ struct DatabaseRowView: View {
         HStack(spacing: 12) {
             Image(systemName: database.databaseIcon)
                 .font(.title2)
-                .foregroundStyle(.orange)
+                .foregroundStyle(.coolifyDatabase)
                 .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
-                .background(Color.orange.opacity(0.1))
+                .background(Color.coolifyDatabase.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 4) {
@@ -129,7 +129,7 @@ struct DatabaseDetailView: View {
                     HStack {
                         Image(systemName: database.databaseIcon)
                             .font(.largeTitle)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(.coolifyDatabase)
                             .symbolEffect(.bounce, options: .nonRepeating)
 
                         VStack(alignment: .leading, spacing: 4) {
@@ -164,7 +164,7 @@ struct DatabaseDetailView: View {
                                     .font(.system(size: 16, weight: .semibold))
                                     .foregroundStyle(.white)
                                     .frame(width: 40, height: 40)
-                                    .background(database.isRunning ? Color.red : Color.green)
+                                    .background(database.isRunning ? Color.coolifyError : Color.coolifySuccess)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                             .disabled(isPerformingAction)
@@ -180,7 +180,7 @@ struct DatabaseDetailView: View {
                                     .font(.system(size: 16, weight: .semibold))
                                     .foregroundStyle(.white)
                                     .frame(width: 40, height: 40)
-                                    .background(Color.orange)
+                                    .background(Color.coolifyWarning)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .symbolEffect(.rotate, isActive: isPerformingAction)
                             }
@@ -190,22 +190,13 @@ struct DatabaseDetailView: View {
                 }
                 .padding()
                 .background {
-                    MeshGradient(
-                        width: 3,
-                        height: 3,
-                        points: [
-                            [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
-                            [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
-                            [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
-                        ],
-                        colors: [
-                            .orange.opacity(0.1), .yellow.opacity(0.1), .orange.opacity(0.1),
-                            .yellow.opacity(0.05), .orange.opacity(0.1), .yellow.opacity(0.05),
-                            .orange.opacity(0.1), .yellow.opacity(0.1), .orange.opacity(0.1)
-                        ]
-                    )
+                    MeshGradient.coolifyDatabase()
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 16))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(.coolifyDatabase.opacity(0.3), lineWidth: 1)
+                }
 
                 // Database Info
                 InfoCard(title: "Configuration") {

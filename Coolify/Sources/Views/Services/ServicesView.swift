@@ -39,7 +39,7 @@ struct ServicesView: View {
                                 } label: {
                                     Label("Stop", systemImage: "stop.fill")
                                 }
-                                .tint(.red)
+                                .tint(.coolifyError)
                             } else {
                                 Button {
                                     Task {
@@ -48,7 +48,7 @@ struct ServicesView: View {
                                 } label: {
                                     Label("Start", systemImage: "play.fill")
                                 }
-                                .tint(.green)
+                                .tint(.coolifySuccess)
                             }
                         }
                     }
@@ -85,10 +85,10 @@ struct ServiceRowView: View {
         HStack(spacing: 12) {
             Image(systemName: "square.stack.3d.up")
                 .font(.title2)
-                .foregroundStyle(.purple)
+                .foregroundStyle(.coolifyPurple)
                 .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
-                .background(Color.purple.opacity(0.1))
+                .background(Color.coolifyPurple.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 4) {
@@ -130,7 +130,7 @@ struct ServiceDetailView: View {
                     HStack {
                         Image(systemName: "square.stack.3d.up")
                             .font(.largeTitle)
-                            .foregroundStyle(.purple)
+                            .foregroundStyle(.coolifyPurple)
                             .symbolEffect(.bounce, options: .nonRepeating)
 
                         VStack(alignment: .leading, spacing: 4) {
@@ -165,7 +165,7 @@ struct ServiceDetailView: View {
                                     .font(.system(size: 16, weight: .semibold))
                                     .foregroundStyle(.white)
                                     .frame(width: 40, height: 40)
-                                    .background(service.isRunning ? Color.red : Color.green)
+                                    .background(service.isRunning ? Color.coolifyError : Color.coolifySuccess)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                             .disabled(isPerformingAction)
@@ -181,7 +181,7 @@ struct ServiceDetailView: View {
                                     .font(.system(size: 16, weight: .semibold))
                                     .foregroundStyle(.white)
                                     .frame(width: 40, height: 40)
-                                    .background(Color.orange)
+                                    .background(Color.coolifyWarning)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .symbolEffect(.rotate, isActive: isPerformingAction)
                             }
@@ -191,22 +191,13 @@ struct ServiceDetailView: View {
                 }
                 .padding()
                 .background {
-                    MeshGradient(
-                        width: 3,
-                        height: 3,
-                        points: [
-                            [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
-                            [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
-                            [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
-                        ],
-                        colors: [
-                            .purple.opacity(0.1), .indigo.opacity(0.1), .purple.opacity(0.1),
-                            .indigo.opacity(0.05), .purple.opacity(0.1), .indigo.opacity(0.05),
-                            .purple.opacity(0.1), .indigo.opacity(0.1), .purple.opacity(0.1)
-                        ]
-                    )
+                    MeshGradient.coolifyService()
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 16))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(.coolifyPurple.opacity(0.3), lineWidth: 1)
+                }
 
                 // URL
                 if let url = service.fqdn, !url.isEmpty {

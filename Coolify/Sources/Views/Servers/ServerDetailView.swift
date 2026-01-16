@@ -1,16 +1,21 @@
 import SwiftUI
 
 struct ServerDetailView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) private var appState
     let server: Server
-    @StateObject private var viewModel = ServerDetailViewModel()
+    @State private var viewModel = ServerDetailViewModel()
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Server Info Card
+                // Server Info Card with Mesh Gradient
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
+                        Image(systemName: "server.rack")
+                            .font(.largeTitle)
+                            .foregroundStyle(.coolifyServer)
+                            .symbolEffect(.bounce, options: .nonRepeating)
+
                         VStack(alignment: .leading, spacing: 4) {
                             Text(server.name)
                                 .font(.title2)
@@ -43,8 +48,14 @@ struct ServerDetailView: View {
                     }
                 }
                 .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(12)
+                .background {
+                    MeshGradient.coolifyServer()
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(.coolifyServer.opacity(0.3), lineWidth: 1)
+                }
 
                 // Resources Section
                 if viewModel.isLoading {
@@ -150,12 +161,13 @@ struct ResourceSection<Content: View>: View {
             }
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(12)
+        .background(.background.secondary)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     NavigationStack {
         ServerDetailView(server: Server(
             id: 1,
@@ -174,6 +186,6 @@ struct ResourceSection<Content: View>: View {
             isReachable: true,
             isUsable: true
         ))
-        .environmentObject(AppState())
+        .environment(appState)
     }
 }

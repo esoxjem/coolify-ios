@@ -84,7 +84,7 @@ struct MainTabView: View {
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabViewCustomization($tabViewCustomization)
-        .tint(.accent)
+        .tint(.coolifyPurple)
     }
 }
 

@@ -13,23 +13,10 @@ struct OnboardingView: View {
                 // Logo and Title with Mesh Gradient
                 VStack(spacing: 16) {
                     ZStack {
-                        MeshGradient(
-                            width: 3,
-                            height: 3,
-                            points: [
-                                [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
-                                [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
-                                [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
-                            ],
-                            colors: [
-                                .blue.opacity(0.3), .purple.opacity(0.2), .blue.opacity(0.3),
-                                .cyan.opacity(0.2), .blue.opacity(0.4), .purple.opacity(0.2),
-                                .blue.opacity(0.3), .cyan.opacity(0.2), .blue.opacity(0.3)
-                            ]
-                        )
-                        .frame(width: 120, height: 120)
-                        .clipShape(RoundedRectangle(cornerRadius: 30))
-                        .blur(radius: 10)
+                        MeshGradient.coolifyOnboarding()
+                            .frame(width: 120, height: 120)
+                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                            .blur(radius: 10)
 
                         Image(systemName: "cloud.fill")
                             .font(.system(size: 60))
@@ -97,18 +84,7 @@ struct OnboardingView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background {
-                            MeshGradient(
-                                width: 2,
-                                height: 2,
-                                points: [
-                                    [0.0, 0.0], [1.0, 0.0],
-                                    [0.0, 1.0], [1.0, 1.0]
-                                ],
-                                colors: [
-                                    .blue, .purple,
-                                    .cyan, .blue
-                                ]
-                            )
+                            LinearGradient.coolifyButton
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
@@ -140,10 +116,10 @@ struct FeatureRow: View {
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.title2)
-                .foregroundStyle(.blue)
+                .foregroundStyle(.coolifyPurple)
                 .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
-                .background(Color.blue.opacity(0.1))
+                .background(Color.coolifyPurple.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 2) {

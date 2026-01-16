@@ -54,9 +54,9 @@ struct AddInstanceView: View {
                     Section {
                         HStack {
                             Image(systemName: "exclamationmark.triangle.fill")
-                                .foregroundColor(.red)
+                                .foregroundColor(.coolifyError)
                             Text(error)
-                                .foregroundColor(.red)
+                                .foregroundColor(.coolifyError)
                         }
                     }
                 }
@@ -210,7 +210,7 @@ struct StepView: View {
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(width: 28, height: 28)
-                .background(Color.blue)
+                .background(Color.coolifyPurple)
                 .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: 4) {
