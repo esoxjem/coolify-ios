@@ -10,6 +10,11 @@ final class DashboardViewModel {
     var serviceCount: Int = 0
     var recentDeployments: [Deployment] = []
     var runningApps: [Application] = []
+    var applications: [Application] = []
+    var databases: [Database] = []
+    var services: [Service] = []
+    var servers: [Server] = []
+    var serverResources: [String: ServerResources] = [:]
     var isLoading: Bool = false
     var error: String?
 
@@ -36,17 +41,41 @@ final class DashboardViewModel {
                 serversTask, appsTask, databasesTask, servicesTask, deploymentsTask
             )
 
+            self.servers = servers
+            self.applications = apps
+            self.databases = databases
+            self.services = services
             serverCount = servers.count
             applicationCount = apps.count
             databaseCount = databases.count
             serviceCount = services.count
             recentDeployments = deployments
             runningApps = apps.filter { $0.isRunning }
+
+            await fetchServerResources(servers: servers, client: client)
         } catch {
             self.error = error.localizedDescription
         }
 
         isLoading = false
+    }
+
+    private func fetchServerResources(servers: [Server], client: CoolifyAPIClient) async {
+        await withTaskGroup(of: (String, ServerResources).self) { group in
+            for server in servers {
+                group.addTask {
+                    do {
+                        let resources = try await client.getServerResources(uuid: server.uuid)
+                        return (server.uuid, resources)
+                    } catch {
+                        return (server.uuid, ServerResources(resources: []))
+                    }
+                }
+            }
+            for await (uuid, resources) in group {
+                serverResources[uuid] = resources
+            }
+        }
     }
 
     func refresh() async {

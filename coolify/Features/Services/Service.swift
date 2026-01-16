@@ -25,16 +25,15 @@ struct Service: Identifiable, Codable, Hashable {
     }
 
     var statusColor: String {
-        switch status?.lowercased() {
-        case "running":
+        guard let status = status?.lowercased() else { return "gray" }
+        if status.contains("running") {
             return "green"
-        case "starting", "restarting":
+        } else if status.contains("starting") || status.contains("restarting") {
             return "yellow"
-        case "stopped", "exited":
+        } else if status.contains("stopped") || status.contains("exited") {
             return "red"
-        default:
-            return "gray"
         }
+        return "gray"
     }
 
     var isRunning: Bool {

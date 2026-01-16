@@ -103,9 +103,10 @@ struct ServerResource: Identifiable, Codable, Hashable {
     }
 
     var statusColor: String {
-        if status.contains("running") {
+        let lowercased = status.lowercased()
+        if lowercased.contains("running") {
             return "green"
-        } else if status.contains("stopped") || status.contains("exited") {
+        } else if lowercased.contains("stopped") || lowercased.contains("exited") {
             return "red"
         }
         return "gray"

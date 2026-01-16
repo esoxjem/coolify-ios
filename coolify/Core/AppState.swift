@@ -36,6 +36,17 @@ final class AppState {
         isAuthenticated = true
     }
 
+    func updateInstance(_ instance: CoolifyInstance) {
+        keychainManager.saveInstance(instance)  // Already handles upsert
+        instances = keychainManager.getAllInstances()
+
+        // Refresh currentInstance if it was updated
+        if currentInstance?.id == instance.id {
+            currentInstance = instance
+            keychainManager.setCurrentInstance(instance)
+        }
+    }
+
     func removeInstance(_ instance: CoolifyInstance) {
         keychainManager.removeInstance(instance)
         instances = keychainManager.getAllInstances()

@@ -3,6 +3,8 @@ import SwiftUI
 struct DashboardView: View {
     @Environment(AppState.self) private var appState
     @State private var viewModel = DashboardViewModel()
+    @State private var databasesViewModel = DatabasesViewModel()
+    @State private var servicesViewModel = ServicesViewModel()
     @Namespace private var namespace
 
     var body: some View {
@@ -13,20 +15,62 @@ struct DashboardView: View {
                         InstanceHeaderView(instance: instance)
                     }
 
-                    statsGrid
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .scaleEffect(1.2)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.vertical, 40)
+                    } else {
+                        ServersSectionCard(
+                            servers: Array(viewModel.servers.prefix(5)),
+                            serverResources: viewModel.serverResources,
+                            namespace: namespace
+                        )
+                        .padding(.horizontal)
 
-                    if !viewModel.recentDeployments.isEmpty {
-                        recentDeploymentsSection
-                    }
+                        if !viewModel.applications.isEmpty {
+                            ResourceSection(title: "Applications", count: viewModel.applications.count) {
+                                ForEach(viewModel.applications.prefix(5)) { application in
+                                    NavigationLink {
+                                        ApplicationDetailView(application: application)
+                                            .navigationTransition(.zoom(sourceID: "application-\(application.id)", in: namespace))
+                                    } label: {
+                                        ResourceRowView(
+                                            icon: "app.connected.to.app.below.fill",
+                                            title: application.name,
+                                            accentColor: .coolifyApplication,
+                                            status: application.status?.capitalized,
+                                            statusColor: application.statusColor
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
+                                    .matchedTransitionSource(id: "application-\(application.id)", in: namespace)
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
 
-                    if !viewModel.runningApps.isEmpty {
-                        runningAppsSection
+                        if !viewModel.databases.isEmpty {
+                            databasesSection
+                        }
+
+                        if !viewModel.services.isEmpty {
+                            servicesSection
+                        }
+
+                        if !viewModel.recentDeployments.isEmpty {
+                            recentDeploymentsSection
+                        }
+
+                        if !viewModel.runningApps.isEmpty {
+                            runningAppsSection
+                        }
                     }
                 }
                 .padding(.vertical)
             }
             .contentMargins(.bottom, 20)
-            .navigationTitle("Dashboard")
+            .navigationTitle("Coolify")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
@@ -49,12 +93,16 @@ struct DashboardView: View {
         .task {
             if let instance = appState.currentInstance {
                 viewModel.setInstance(instance)
+                databasesViewModel.setInstance(instance)
+                servicesViewModel.setInstance(instance)
                 await viewModel.loadAll()
             }
         }
         .onChange(of: appState.currentInstance) { _, newInstance in
             if let instance = newInstance {
                 viewModel.setInstance(instance)
+                databasesViewModel.setInstance(instance)
+                servicesViewModel.setInstance(instance)
                 Task {
                     await viewModel.loadAll()
                 }
@@ -62,48 +110,7 @@ struct DashboardView: View {
         }
     }
 
-    private var statsGrid: some View {
-        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-            NavigationLink {
-                ServersView()
-                    .navigationTransition(.zoom(sourceID: "servers", in: namespace))
-            } label: {
-                StatCard(title: "Servers", value: "\(viewModel.serverCount)", icon: "server.rack", color: .coolifyServer, isLoading: viewModel.isLoading)
-            }
-            .buttonStyle(.plain)
-            .matchedTransitionSource(id: "servers", in: namespace)
-
-            NavigationLink {
-                ApplicationsView()
-                    .navigationTransition(.zoom(sourceID: "apps", in: namespace))
-            } label: {
-                StatCard(title: "Applications", value: "\(viewModel.applicationCount)", icon: "app.badge", color: .coolifySuccess, isLoading: viewModel.isLoading)
-            }
-            .buttonStyle(.plain)
-            .matchedTransitionSource(id: "apps", in: namespace)
-
-            NavigationLink {
-                DatabasesView()
-                    .navigationTransition(.zoom(sourceID: "databases", in: namespace))
-            } label: {
-                StatCard(title: "Databases", value: "\(viewModel.databaseCount)", icon: "cylinder", color: .coolifyDatabase, isLoading: viewModel.isLoading)
-            }
-            .buttonStyle(.plain)
-            .matchedTransitionSource(id: "databases", in: namespace)
-
-            NavigationLink {
-                ServicesView()
-                    .navigationTransition(.zoom(sourceID: "services", in: namespace))
-            } label: {
-                StatCard(title: "Services", value: "\(viewModel.serviceCount)", icon: "square.stack.3d.up", color: .coolifyPurple, isLoading: viewModel.isLoading)
-            }
-            .buttonStyle(.plain)
-            .matchedTransitionSource(id: "services", in: namespace)
-        }
-        .padding(.horizontal)
-    }
-
-    private var recentDeploymentsSection: some View {
+private var recentDeploymentsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Recent Deployments")
@@ -137,36 +144,69 @@ struct DashboardView: View {
     }
 
     private var runningAppsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Running Applications")
-                    .font(.coolifyMonoHeadline)
-                Spacer()
-                NavigationLink {
-                    ApplicationsView()
-                        .navigationTransition(.zoom(sourceID: "running-apps", in: namespace))
-                } label: {
-                    Text("See All")
-                        .font(.coolifyMonoSubheadline)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .padding(.horizontal)
-
+        ResourceSection(title: "Running Applications", count: viewModel.runningApps.count) {
             ForEach(viewModel.runningApps.prefix(5)) { app in
                 NavigationLink {
                     ApplicationDetailView(application: app)
                         .navigationTransition(.zoom(sourceID: "app-\(app.id)", in: namespace))
                 } label: {
-                    ApplicationRowView(application: app, showStatus: true)
-                        .contentShape(Rectangle())
+                    ResourceRowView(
+                        icon: "app.connected.to.app.below.fill",
+                        title: app.name,
+                        accentColor: .coolifyApplication,
+                        status: app.status?.capitalized,
+                        statusColor: app.statusColor
+                    )
                 }
                 .buttonStyle(.plain)
                 .matchedTransitionSource(id: "app-\(app.id)", in: namespace)
-                .padding(.horizontal)
             }
         }
-        .matchedTransitionSource(id: "running-apps", in: namespace)
+        .padding(.horizontal)
+    }
+
+    private var databasesSection: some View {
+        ResourceSection(title: "Databases", count: viewModel.databases.count) {
+            ForEach(viewModel.databases.prefix(5)) { database in
+                NavigationLink {
+                    DatabaseDetailView(database: database, viewModel: databasesViewModel)
+                        .navigationTransition(.zoom(sourceID: "database-\(database.id)", in: namespace))
+                } label: {
+                    ResourceRowView(
+                        icon: database.databaseIcon,
+                        title: database.name,
+                        accentColor: .coolifyDatabase,
+                        status: database.status?.capitalized,
+                        statusColor: database.statusColor
+                    )
+                }
+                .buttonStyle(.plain)
+                .matchedTransitionSource(id: "database-\(database.id)", in: namespace)
+            }
+        }
+        .padding(.horizontal)
+    }
+
+    private var servicesSection: some View {
+        ResourceSection(title: "Services", count: viewModel.services.count) {
+            ForEach(viewModel.services.prefix(5)) { service in
+                NavigationLink {
+                    ServiceDetailView(service: service, viewModel: servicesViewModel)
+                        .navigationTransition(.zoom(sourceID: "service-\(service.id)", in: namespace))
+                } label: {
+                    ResourceRowView(
+                        icon: "square.stack.3d.up",
+                        title: service.name,
+                        accentColor: .coolifyService,
+                        status: service.status?.capitalized,
+                        statusColor: service.statusColor
+                    )
+                }
+                .buttonStyle(.plain)
+                .matchedTransitionSource(id: "service-\(service.id)", in: namespace)
+            }
+        }
+        .padding(.horizontal)
     }
 
     private var errorBinding: Binding<Bool> {

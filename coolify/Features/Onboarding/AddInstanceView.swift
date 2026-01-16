@@ -4,12 +4,20 @@ struct AddInstanceView: View {
     @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
 
+    let instanceToEdit: CoolifyInstance?
+
     @State private var name: String = ""
     @State private var baseURL: String = ""
     @State private var apiToken: String = ""
     @State private var isValidating: Bool = false
     @State private var validationError: String?
     @State private var showTokenHelp: Bool = false
+
+    private var isEditMode: Bool { instanceToEdit != nil }
+
+    init(instanceToEdit: CoolifyInstance? = nil) {
+        self.instanceToEdit = instanceToEdit
+    }
 
     var isFormValid: Bool {
         !name.trimmingCharacters(in: .whitespaces).isEmpty &&
@@ -24,7 +32,7 @@ struct AddInstanceView: View {
                 errorSection
                 connectSection
             }
-            .navigationTitle("Add Instance")
+            .navigationTitle(isEditMode ? "Edit Instance" : "Add Instance")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -33,6 +41,13 @@ struct AddInstanceView: View {
             }
             .sheet(isPresented: $showTokenHelp) {
                 TokenHelpView()
+            }
+            .onAppear {
+                if let instance = instanceToEdit {
+                    name = instance.name
+                    baseURL = instance.baseURL
+                    apiToken = instance.apiToken
+                }
             }
         }
     }
@@ -95,7 +110,7 @@ struct AddInstanceView: View {
                             .padding(.trailing, 8)
                         Text("Validating...")
                     } else {
-                        Text("Connect")
+                        Text(isEditMode ? "Save Changes" : "Connect")
                     }
                     Spacer()
                 }
@@ -108,7 +123,11 @@ struct AddInstanceView: View {
         isValidating = true
         validationError = nil
 
+        // Preserve the original instance ID when editing, create new ID for new instances
+        let instanceId = instanceToEdit?.id ?? UUID()
+
         let instance = CoolifyInstance(
+            id: instanceId,
             name: name.trimmingCharacters(in: .whitespaces),
             baseURL: baseURL.trimmingCharacters(in: .whitespaces),
             apiToken: apiToken.trimmingCharacters(in: .whitespaces)
@@ -119,7 +138,11 @@ struct AddInstanceView: View {
         do {
             _ = try await client.validateConnection()
             await MainActor.run {
-                appState.addInstance(instance)
+                if isEditMode {
+                    appState.updateInstance(instance)
+                } else {
+                    appState.addInstance(instance)
+                }
                 dismiss()
             }
         } catch let error as APIError {

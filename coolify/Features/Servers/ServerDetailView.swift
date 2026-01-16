@@ -134,92 +134,18 @@ struct ServerDetailView: View {
                 .padding()
             } else {
                 if let apps = viewModel.resources?.applications, !apps.isEmpty {
-                    ResourceSection(title: "Applications", count: apps.count) {
-                        ForEach(apps) { resource in
-                            NavigationLink {
-                                ApplicationLoaderView(uuid: resource.uuid)
-                            } label: {
-                                ServerResourceRowView(
-                                    resource: resource,
-                                    icon: "app.connected.to.app.below.fill",
-                                    accentColor: .coolifyApplication
-                                )
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
+                    ApplicationsSectionCard(applications: apps)
                 }
 
                 if let databases = viewModel.resources?.databases, !databases.isEmpty {
-                    ResourceSection(title: "Databases", count: databases.count) {
-                        ForEach(databases) { resource in
-                            NavigationLink {
-                                DatabaseLoaderView(uuid: resource.uuid)
-                            } label: {
-                                ServerResourceRowView(
-                                    resource: resource,
-                                    icon: "cylinder",
-                                    accentColor: .coolifyDatabase
-                                )
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
+                    DatabasesSectionCard(databases: databases)
                 }
 
                 if let services = viewModel.resources?.services, !services.isEmpty {
-                    ResourceSection(title: "Services", count: services.count) {
-                        ForEach(services) { resource in
-                            NavigationLink {
-                                ServiceLoaderView(uuid: resource.uuid)
-                            } label: {
-                                ServerResourceRowView(
-                                    resource: resource,
-                                    icon: "square.stack.3d.up",
-                                    accentColor: .coolifyService
-                                )
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
+                    ServicesSectionCard(services: services)
                 }
             }
         }
-    }
-}
-
-/// A row view for displaying a server resource (application, database, or service)
-struct ServerResourceRowView: View {
-    let resource: ServerResource
-    let icon: String
-    let accentColor: Color
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.coolifyMonoTitle3)
-                .foregroundStyle(accentColor)
-                .frame(width: 32)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(resource.name)
-                    .font(.coolifyMonoSubheadline)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-
-                StatusBadge(status: resource.displayStatus, color: resource.statusColor)
-            }
-
-            Spacer()
-
-            Image(systemName: "chevron.right")
-                .font(.coolifyMonoCaption)
-                .foregroundStyle(.tertiary)
-        }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
-        .background(Color(.systemGray6).opacity(0.5))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
@@ -334,22 +260,90 @@ struct ServiceLoaderView: View {
     }
 }
 
-#Preview {
+#Preview("Section Cards") {
     @Previewable @State var appState = AppState()
     NavigationStack {
-        ServerDetailView(server: Server(
-            uuid: "test-uuid",
-            name: "Production Server",
-            description: nil,
-            ip: "192.168.1.100",
-            user: "root",
-            port: 22,
-            proxy: nil,
-            settings: nil,
-            isCoolifyHost: true,
-            isReachable: true,
-            isUsable: true
-        ))
-        .environment(appState)
+        ScrollView {
+            VStack(spacing: 16) {
+                ServerDetailView(server: Server(
+                    uuid: "test-uuid",
+                    name: "Production Server",
+                    description: nil,
+                    ip: "192.168.1.100",
+                    user: "root",
+                    port: 22,
+                    proxy: nil,
+                    settings: nil,
+                    isCoolifyHost: true,
+                    isReachable: true,
+                    isUsable: true
+                ))
+                .environment(appState)
+
+                ApplicationsSectionCard(applications: [
+                    ServerResource(
+                        id: 1,
+                        uuid: "app-uuid-1",
+                        name: "esoxjem/website:main",
+                        status: "running:healthy",
+                        type: "application",
+                        createdAt: nil,
+                        updatedAt: nil
+                    ),
+                    ServerResource(
+                        id: 2,
+                        uuid: "app-uuid-2",
+                        name: "esoxjem/api:main",
+                        status: "running:unknown",
+                        type: "application",
+                        createdAt: nil,
+                        updatedAt: nil
+                    )
+                ])
+
+                DatabasesSectionCard(databases: [
+                    ServerResource(
+                        id: 3,
+                        uuid: "db-uuid-1",
+                        name: "postgres-main",
+                        status: "running:healthy",
+                        type: "database",
+                        createdAt: nil,
+                        updatedAt: nil
+                    ),
+                    ServerResource(
+                        id: 4,
+                        uuid: "db-uuid-2",
+                        name: "redis-cache",
+                        status: "running:healthy",
+                        type: "database",
+                        createdAt: nil,
+                        updatedAt: nil
+                    )
+                ])
+
+                ServicesSectionCard(services: [
+                    ServerResource(
+                        id: 5,
+                        uuid: "svc-uuid-1",
+                        name: "uptime-kuma-h8wskgg4g4c",
+                        status: "running:healthy",
+                        type: "service",
+                        createdAt: nil,
+                        updatedAt: nil
+                    ),
+                    ServerResource(
+                        id: 6,
+                        uuid: "svc-uuid-2",
+                        name: "plausible-analytics",
+                        status: "stopped",
+                        type: "service",
+                        createdAt: nil,
+                        updatedAt: nil
+                    )
+                ])
+            }
+            .padding()
+        }
     }
 }
