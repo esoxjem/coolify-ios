@@ -4,7 +4,7 @@ struct SettingsView: View {
     @Environment(AppState.self) private var appState
     @State private var showAddInstance = false
     @State private var showLogoutConfirmation = false
-    @State private var pollingInterval: Double = 30
+    @State private var instanceToEdit: CoolifyInstance?
 
     var body: some View {
         @Bindable var appState = appState
@@ -13,13 +13,15 @@ struct SettingsView: View {
             List {
                 currentInstanceSection
                 instancesSection
-                preferencesSection
                 aboutSection
                 logoutSection
             }
             .navigationTitle("Settings")
             .sheet(isPresented: $showAddInstance) {
                 AddInstanceView()
+            }
+            .sheet(item: $instanceToEdit) { instance in
+                AddInstanceView(instanceToEdit: instance)
             }
             .confirmationDialog("Sign Out", isPresented: $showLogoutConfirmation, titleVisibility: .visible) {
                 Button("Sign Out", role: .destructive) { appState.logout() }
@@ -34,17 +36,28 @@ struct SettingsView: View {
     private var currentInstanceSection: some View {
         Section {
             if let instance = appState.currentInstance {
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(.coolifySuccess)
-                            .symbolEffect(.pulse)
-                        Text(instance.name)
-                            .fontWeight(.semibold)
+                HStack {
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.coolifySuccess)
+                                .symbolEffect(.pulse)
+                            Text(instance.name)
+                                .fontWeight(.semibold)
+                        }
+                        Text(instance.baseURL)
+                            .font(.coolifyMonoCaption)
+                            .foregroundStyle(.secondary)
                     }
-                    Text(instance.baseURL)
-                        .font(.coolifyMonoCaption)
-                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Button {
+                        instanceToEdit = instance
+                    } label: {
+                        Image(systemName: "pencil")
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
                 }
                 .padding(.vertical, 4)
             }
@@ -80,7 +93,6 @@ struct SettingsView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(instance.name)
-                    .fontWeight(instance.id == appState.currentInstance?.id ? .semibold : .regular)
                 Text(instance.baseURL)
                     .font(.coolifyMonoCaption)
                     .foregroundStyle(.secondary)
@@ -97,35 +109,11 @@ struct SettingsView: View {
         }
     }
 
-    private var preferencesSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Auto-refresh Interval")
-                Picker("Interval", selection: $pollingInterval) {
-                    Text("15 seconds").tag(15.0)
-                    Text("30 seconds").tag(30.0)
-                    Text("1 minute").tag(60.0)
-                    Text("5 minutes").tag(300.0)
-                }
-                .pickerStyle(.segmented)
-            }
-            .padding(.vertical, 4)
-        } header: {
-            Text("Preferences")
-        }
-    }
-
     private var aboutSection: some View {
         Section {
-            LabeledContent("Version", value: "1.0.0")
-            Link(destination: URL(string: "https://coolify.io/docs")!) {
-                LabeledContent("Coolify Documentation") {
-                    Image(systemName: "arrow.up.right.square")
-                        .foregroundStyle(.secondary)
-                }
-            }
-            Link(destination: URL(string: "https://github.com/coollabsio/coolify")!) {
-                LabeledContent("Coolify on GitHub") {
+            LabeledContent("Version", value: "0.1")
+            Link(destination: URL(string: "https://github.com/arunsasidharan/coolify-ios/issues")!) {
+                LabeledContent("Report an Issue") {
                     Image(systemName: "arrow.up.right.square")
                         .foregroundStyle(.secondary)
                 }
