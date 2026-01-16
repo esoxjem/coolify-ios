@@ -86,8 +86,49 @@ struct ServerSettings: Codable, Hashable {
     }
 }
 
-struct ServerResources: Codable {
-    let applications: [Application]?
-    let databases: [Database]?
-    let services: [Service]?
+/// Individual resource returned by the /servers/{uuid}/resources endpoint
+struct ServerResource: Identifiable, Codable, Hashable {
+    let id: Int
+    let uuid: String
+    let name: String
+    let status: String
+    let type: String
+    let createdAt: String?
+    let updatedAt: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id, uuid, name, status, type
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+    }
+
+    var statusColor: String {
+        if status.contains("running") {
+            return "green"
+        } else if status.contains("stopped") || status.contains("exited") {
+            return "red"
+        }
+        return "gray"
+    }
+
+    var displayStatus: String {
+        if status.contains(":") {
+            // Extract the main status before the colon (e.g., "running" from "running:healthy")
+            return status.components(separatedBy: ":").first?.capitalized ?? status
+        }
+        return status.capitalized
+    }
+}
+
+/// Grouped resources by type for display
+struct ServerResources {
+    let applications: [ServerResource]
+    let databases: [ServerResource]
+    let services: [ServerResource]
+
+    init(resources: [ServerResource]) {
+        applications = resources.filter { $0.type == "application" }
+        databases = resources.filter { $0.type == "database" }
+        services = resources.filter { $0.type == "service" }
+    }
 }

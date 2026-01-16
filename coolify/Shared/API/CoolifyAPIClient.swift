@@ -211,7 +211,8 @@ actor CoolifyAPIClient {
     }
 
     func getServerResources(uuid: String) async throws -> ServerResources {
-        try await request(endpoint: "/servers/\(uuid)/resources")
+        let resources: [ServerResource] = try await request(endpoint: "/servers/\(uuid)/resources")
+        return ServerResources(resources: resources)
     }
 
     func validateServer(uuid: String) async throws -> Bool {
