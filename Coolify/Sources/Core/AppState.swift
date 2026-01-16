@@ -1,16 +1,16 @@
 import SwiftUI
-import Combine
+import Observation
 
+@Observable
 @MainActor
-final class AppState: ObservableObject {
-    @Published var isAuthenticated: Bool = false
-    @Published var currentInstance: CoolifyInstance?
-    @Published var instances: [CoolifyInstance] = []
-    @Published var isLoading: Bool = false
-    @Published var error: AppError?
+final class AppState {
+    var isAuthenticated: Bool = false
+    var currentInstance: CoolifyInstance?
+    var instances: [CoolifyInstance] = []
+    var isLoading: Bool = false
+    var error: AppError?
 
     private let keychainManager = KeychainManager.shared
-    private var cancellables = Set<AnyCancellable>()
 
     init() {
         loadSavedInstances()

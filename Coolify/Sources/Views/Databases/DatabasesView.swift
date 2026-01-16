@@ -1,14 +1,20 @@
 import SwiftUI
 
 struct DatabasesView: View {
-    @EnvironmentObject var appState: AppState
-    @StateObject private var viewModel = DatabasesViewModel()
+    @Environment(AppState.self) private var appState
+    @State private var viewModel = DatabasesViewModel()
+    @Namespace private var namespace
 
     var body: some View {
         NavigationStack {
             Group {
                 if viewModel.isLoading && viewModel.databases.isEmpty {
-                    ProgressView("Loading databases...")
+                    ContentUnavailableView {
+                        Label("Loading", systemImage: "cylinder")
+                            .symbolEffect(.pulse)
+                    } description: {
+                        Text("Fetching databases...")
+                    }
                 } else if viewModel.databases.isEmpty {
                     ContentUnavailableView(
                         "No Databases",
@@ -19,9 +25,11 @@ struct DatabasesView: View {
                     List(viewModel.databases) { db in
                         NavigationLink {
                             DatabaseDetailView(database: db, viewModel: viewModel)
+                                .navigationTransition(.zoom(sourceID: db.id, in: namespace))
                         } label: {
                             DatabaseRowView(database: db)
                         }
+                        .matchedTransitionSource(id: db.id, in: namespace)
                         .swipeActions(edge: .trailing) {
                             if db.isRunning {
                                 Button {
@@ -71,15 +79,17 @@ struct DatabasesView: View {
 
 struct DatabaseRowView: View {
     let database: Database
+    @State private var appeared = false
 
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: database.databaseIcon)
                 .font(.title2)
-                .foregroundColor(.orange)
+                .foregroundStyle(.orange)
+                .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
                 .background(Color.orange.opacity(0.1))
-                .cornerRadius(10)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(database.name)
@@ -88,7 +98,7 @@ struct DatabaseRowView: View {
                 if let type = database.type ?? database.image {
                     Text(type)
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
             }
 
@@ -102,22 +112,25 @@ struct DatabaseRowView: View {
             }
         }
         .padding(.vertical, 4)
+        .onAppear { appeared = true }
     }
 }
 
 struct DatabaseDetailView: View {
     let database: Database
-    @ObservedObject var viewModel: DatabasesViewModel
+    var viewModel: DatabasesViewModel
+    @State private var isPerformingAction = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                // Header
+                // Header with Mesh Gradient
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         Image(systemName: database.databaseIcon)
                             .font(.largeTitle)
-                            .foregroundColor(.orange)
+                            .foregroundStyle(.orange)
+                            .symbolEffect(.bounce, options: .nonRepeating)
 
                         VStack(alignment: .leading, spacing: 4) {
                             Text(database.name)
@@ -137,40 +150,62 @@ struct DatabaseDetailView: View {
                         // Action Buttons
                         HStack(spacing: 12) {
                             Button {
+                                isPerformingAction = true
                                 Task {
                                     if database.isRunning {
                                         await viewModel.stopDatabase(database)
                                     } else {
                                         await viewModel.startDatabase(database)
                                     }
+                                    isPerformingAction = false
                                 }
                             } label: {
                                 Image(systemName: database.isRunning ? "stop.fill" : "play.fill")
                                     .font(.system(size: 16, weight: .semibold))
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                     .frame(width: 40, height: 40)
                                     .background(database.isRunning ? Color.red : Color.green)
-                                    .cornerRadius(10)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
+                            .disabled(isPerformingAction)
 
                             Button {
+                                isPerformingAction = true
                                 Task {
                                     await viewModel.restartDatabase(database)
+                                    isPerformingAction = false
                                 }
                             } label: {
                                 Image(systemName: "arrow.clockwise")
                                     .font(.system(size: 16, weight: .semibold))
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                     .frame(width: 40, height: 40)
                                     .background(Color.orange)
-                                    .cornerRadius(10)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .symbolEffect(.rotate, isActive: isPerformingAction)
                             }
+                            .disabled(isPerformingAction)
                         }
                     }
                 }
                 .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(12)
+                .background {
+                    MeshGradient(
+                        width: 3,
+                        height: 3,
+                        points: [
+                            [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
+                            [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
+                            [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
+                        ],
+                        colors: [
+                            .orange.opacity(0.1), .yellow.opacity(0.1), .orange.opacity(0.1),
+                            .yellow.opacity(0.05), .orange.opacity(0.1), .yellow.opacity(0.05),
+                            .orange.opacity(0.1), .yellow.opacity(0.1), .orange.opacity(0.1)
+                        ]
+                    )
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 16))
 
                 // Database Info
                 InfoCard(title: "Configuration") {
@@ -202,7 +237,7 @@ struct DatabaseDetailView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Internal URL")
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundStyle(.secondary)
                                 Text(internalUrl)
                                     .font(.caption)
                                     .fontWeight(.medium)
@@ -220,6 +255,7 @@ struct DatabaseDetailView: View {
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     DatabasesView()
-        .environmentObject(AppState())
+        .environment(appState)
 }

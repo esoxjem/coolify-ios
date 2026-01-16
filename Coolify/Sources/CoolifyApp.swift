@@ -2,18 +2,18 @@ import SwiftUI
 
 @main
 struct CoolifyApp: App {
-    @StateObject private var appState = AppState()
+    @State private var appState = AppState()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(appState)
+                .environment(appState)
         }
     }
 }
 
 struct ContentView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) private var appState
 
     var body: some View {
         Group {
@@ -23,11 +23,12 @@ struct ContentView: View {
                 OnboardingView()
             }
         }
-        .animation(.easeInOut, value: appState.isAuthenticated)
+        .animation(.smooth, value: appState.isAuthenticated)
     }
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     ContentView()
-        .environmentObject(AppState())
+        .environment(appState)
 }

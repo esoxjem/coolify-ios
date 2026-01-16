@@ -1,46 +1,95 @@
 import SwiftUI
 
+enum AppTab: String, CaseIterable, Identifiable {
+    case dashboard
+    case servers
+    case apps
+    case databases
+    case services
+    case deployments
+    case settings
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .dashboard: "Dashboard"
+        case .servers: "Servers"
+        case .apps: "Apps"
+        case .databases: "Databases"
+        case .services: "Services"
+        case .deployments: "Deployments"
+        case .settings: "Settings"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .dashboard: "square.grid.2x2"
+        case .servers: "server.rack"
+        case .apps: "app.badge"
+        case .databases: "cylinder"
+        case .services: "square.stack.3d.up"
+        case .deployments: "arrow.triangle.2.circlepath"
+        case .settings: "gear"
+        }
+    }
+}
+
 struct MainTabView: View {
-    @EnvironmentObject var appState: AppState
-    @State private var selectedTab = 0
+    @Environment(AppState.self) private var appState
+    @State private var selectedTab: AppTab = .dashboard
+    @State private var tabViewCustomization = TabViewCustomization()
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            DashboardView()
-                .tabItem {
-                    Label("Dashboard", systemImage: "square.grid.2x2")
-                }
-                .tag(0)
+            Tab(AppTab.dashboard.title, systemImage: AppTab.dashboard.icon, value: .dashboard) {
+                DashboardView()
+            }
+            .customizationID(AppTab.dashboard.id)
 
-            ServersView()
-                .tabItem {
-                    Label("Servers", systemImage: "server.rack")
+            TabSection("Resources") {
+                Tab(AppTab.servers.title, systemImage: AppTab.servers.icon, value: .servers) {
+                    ServersView()
                 }
-                .tag(1)
+                .customizationID(AppTab.servers.id)
 
-            ApplicationsView()
-                .tabItem {
-                    Label("Apps", systemImage: "app.badge")
+                Tab(AppTab.apps.title, systemImage: AppTab.apps.icon, value: .apps) {
+                    ApplicationsView()
                 }
-                .tag(2)
+                .customizationID(AppTab.apps.id)
 
-            DeploymentsView()
-                .tabItem {
-                    Label("Deploys", systemImage: "arrow.triangle.2.circlepath")
+                Tab(AppTab.databases.title, systemImage: AppTab.databases.icon, value: .databases) {
+                    DatabasesView()
                 }
-                .tag(3)
+                .customizationID(AppTab.databases.id)
 
-            SettingsView()
-                .tabItem {
-                    Label("Settings", systemImage: "gear")
+                Tab(AppTab.services.title, systemImage: AppTab.services.icon, value: .services) {
+                    ServicesView()
                 }
-                .tag(4)
+                .customizationID(AppTab.services.id)
+            }
+            .customizationID("resources-section")
+
+            Tab(AppTab.deployments.title, systemImage: AppTab.deployments.icon, value: .deployments) {
+                DeploymentsView()
+            }
+            .customizationID(AppTab.deployments.id)
+
+            Tab(AppTab.settings.title, systemImage: AppTab.settings.icon, value: .settings) {
+                SettingsView()
+            }
+            .customizationID(AppTab.settings.id)
+            .customizationBehavior(.disabled, for: .sidebar, .tabBar)
         }
-        .tint(.blue)
+        .tabViewStyle(.sidebarAdaptable)
+        .tabViewCustomization($tabViewCustomization)
+        .tint(.accent)
     }
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     MainTabView()
-        .environmentObject(AppState())
+        .environment(appState)
 }

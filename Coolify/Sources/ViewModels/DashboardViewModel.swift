@@ -1,15 +1,17 @@
 import SwiftUI
+import Observation
 
+@Observable
 @MainActor
-final class DashboardViewModel: ObservableObject {
-    @Published var serverCount: Int = 0
-    @Published var applicationCount: Int = 0
-    @Published var databaseCount: Int = 0
-    @Published var serviceCount: Int = 0
-    @Published var recentDeployments: [Deployment] = []
-    @Published var runningApps: [Application] = []
-    @Published var isLoading: Bool = false
-    @Published var error: String?
+final class DashboardViewModel {
+    var serverCount: Int = 0
+    var applicationCount: Int = 0
+    var databaseCount: Int = 0
+    var serviceCount: Int = 0
+    var recentDeployments: [Deployment] = []
+    var runningApps: [Application] = []
+    var isLoading: Bool = false
+    var error: String?
 
     private var client: CoolifyAPIClient?
 

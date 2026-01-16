@@ -1,10 +1,12 @@
 import SwiftUI
+import Observation
 
+@Observable
 @MainActor
-final class ApplicationsViewModel: ObservableObject {
-    @Published var applications: [Application] = []
-    @Published var isLoading: Bool = false
-    @Published var error: String?
+final class ApplicationsViewModel {
+    var applications: [Application] = []
+    var isLoading: Bool = false
+    var error: String?
 
     private var client: CoolifyAPIClient?
 
@@ -65,16 +67,17 @@ final class ApplicationsViewModel: ObservableObject {
     }
 }
 
+@Observable
 @MainActor
-final class ApplicationDetailViewModel: ObservableObject {
-    @Published var application: Application?
-    @Published var logs: String = ""
-    @Published var envVars: [EnvironmentVariable] = []
-    @Published var isLoading: Bool = false
-    @Published var isLoadingLogs: Bool = false
-    @Published var isLoadingEnvVars: Bool = false
-    @Published var isPerformingAction: Bool = false
-    @Published var error: String?
+final class ApplicationDetailViewModel {
+    var application: Application?
+    var logs: String = ""
+    var envVars: [EnvironmentVariable] = []
+    var isLoading: Bool = false
+    var isLoadingLogs: Bool = false
+    var isLoadingEnvVars: Bool = false
+    var isPerformingAction: Bool = false
+    var error: String?
 
     private var client: CoolifyAPIClient?
     private var applicationUuid: String?

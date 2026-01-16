@@ -1,14 +1,15 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @EnvironmentObject var appState: AppState
-    @StateObject private var viewModel = DashboardViewModel()
+    @Environment(AppState.self) private var appState
+    @State private var viewModel = DashboardViewModel()
+    @Namespace private var namespace
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    // Instance Info
+                    // Instance Info with Mesh Gradient
                     if let instance = appState.currentInstance {
                         InstanceHeaderView(instance: instance)
                     }
@@ -22,29 +23,37 @@ struct DashboardView: View {
                             title: "Servers",
                             value: "\(viewModel.serverCount)",
                             icon: "server.rack",
-                            color: .blue
+                            color: .blue,
+                            isLoading: viewModel.isLoading
                         )
+                        .matchedTransitionSource(id: "servers", in: namespace)
 
                         StatCard(
                             title: "Applications",
                             value: "\(viewModel.applicationCount)",
                             icon: "app.badge",
-                            color: .green
+                            color: .green,
+                            isLoading: viewModel.isLoading
                         )
+                        .matchedTransitionSource(id: "apps", in: namespace)
 
                         StatCard(
                             title: "Databases",
                             value: "\(viewModel.databaseCount)",
                             icon: "cylinder",
-                            color: .orange
+                            color: .orange,
+                            isLoading: viewModel.isLoading
                         )
+                        .matchedTransitionSource(id: "databases", in: namespace)
 
                         StatCard(
                             title: "Services",
                             value: "\(viewModel.serviceCount)",
                             icon: "square.stack.3d.up",
-                            color: .purple
+                            color: .purple,
+                            isLoading: viewModel.isLoading
                         )
+                        .matchedTransitionSource(id: "services", in: namespace)
                     }
                     .padding(.horizontal)
 
@@ -57,10 +66,11 @@ struct DashboardView: View {
                                 Spacer()
                                 NavigationLink {
                                     DeploymentsView()
+                                        .navigationTransition(.zoom(sourceID: "deployments", in: namespace))
                                 } label: {
                                     Text("See All")
                                         .font(.subheadline)
-                                        .foregroundColor(.blue)
+                                        .foregroundStyle(.tint)
                                 }
                             }
                             .padding(.horizontal)
@@ -70,6 +80,7 @@ struct DashboardView: View {
                                     .padding(.horizontal)
                             }
                         }
+                        .matchedTransitionSource(id: "deployments", in: namespace)
                     }
 
                     // Running Applications
@@ -81,10 +92,11 @@ struct DashboardView: View {
                                 Spacer()
                                 NavigationLink {
                                     ApplicationsView()
+                                        .navigationTransition(.zoom(sourceID: "running-apps", in: namespace))
                                 } label: {
                                     Text("See All")
                                         .font(.subheadline)
-                                        .foregroundColor(.blue)
+                                        .foregroundStyle(.tint)
                                 }
                             }
                             .padding(.horizontal)
@@ -94,17 +106,24 @@ struct DashboardView: View {
                                     .padding(.horizontal)
                             }
                         }
+                        .matchedTransitionSource(id: "running-apps", in: namespace)
                     }
                 }
                 .padding(.vertical)
             }
+            .contentMargins(.bottom, 20)
             .navigationTitle("Dashboard")
             .refreshable {
                 await viewModel.refresh()
             }
             .overlay {
                 if viewModel.isLoading && viewModel.serverCount == 0 {
-                    ProgressView("Loading...")
+                    ContentUnavailableView {
+                        Label("Loading", systemImage: "arrow.trianglehead.2.clockwise")
+                            .symbolEffect(.rotate)
+                    } description: {
+                        Text("Fetching your resources...")
+                    }
                 }
             }
             .alert("Error", isPresented: .init(
@@ -135,6 +154,7 @@ struct DashboardView: View {
 
 struct InstanceHeaderView: View {
     let instance: CoolifyInstance
+    @State private var isConnected = true
 
     var body: some View {
         VStack(spacing: 8) {
@@ -146,18 +166,38 @@ struct InstanceHeaderView: View {
 
                     Text(instance.baseURL)
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
                 Spacer()
 
                 Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.green)
+                    .foregroundStyle(.green)
                     .font(.title2)
+                    .symbolEffect(.pulse, options: .repeating, value: isConnected)
             }
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(12)
+        .background {
+            MeshGradient(
+                width: 3,
+                height: 3,
+                points: [
+                    [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
+                    [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
+                    [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
+                ],
+                colors: [
+                    .blue.opacity(0.1), .purple.opacity(0.1), .blue.opacity(0.1),
+                    .cyan.opacity(0.1), .blue.opacity(0.15), .purple.opacity(0.1),
+                    .blue.opacity(0.1), .cyan.opacity(0.1), .blue.opacity(0.1)
+                ]
+            )
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay {
+            RoundedRectangle(cornerRadius: 16)
+                .strokeBorder(.quaternary, lineWidth: 1)
+        }
         .padding(.horizontal)
     }
 }
@@ -167,13 +207,17 @@ struct StatCard: View {
     let value: String
     let icon: String
     let color: Color
+    var isLoading: Bool = false
+
+    @State private var appeared = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: icon)
                     .font(.title2)
-                    .foregroundColor(color)
+                    .foregroundStyle(color)
+                    .symbolEffect(.bounce, value: appeared)
                 Spacer()
             }
 
@@ -181,19 +225,31 @@ struct StatCard: View {
                 Text(value)
                     .font(.title)
                     .fontWeight(.bold)
+                    .contentTransition(.numericText())
+                    .animation(.snappy, value: value)
 
                 Text(title)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(12)
+        .background {
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.background.secondary)
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 16)
+                .strokeBorder(.quaternary, lineWidth: 1)
+        }
+        .onAppear {
+            appeared = true
+        }
     }
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     DashboardView()
-        .environmentObject(AppState())
+        .environment(appState)
 }

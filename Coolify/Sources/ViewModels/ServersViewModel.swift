@@ -1,10 +1,12 @@
 import SwiftUI
+import Observation
 
+@Observable
 @MainActor
-final class ServersViewModel: ObservableObject {
-    @Published var servers: [Server] = []
-    @Published var isLoading: Bool = false
-    @Published var error: String?
+final class ServersViewModel {
+    var servers: [Server] = []
+    var isLoading: Bool = false
+    var error: String?
 
     private var client: CoolifyAPIClient?
 
@@ -32,14 +34,15 @@ final class ServersViewModel: ObservableObject {
     }
 }
 
+@Observable
 @MainActor
-final class ServerDetailViewModel: ObservableObject {
-    @Published var resources: ServerResources?
-    @Published var isLoading: Bool = false
-    @Published var isValidating: Bool = false
-    @Published var showValidationResult: Bool = false
-    @Published var validationMessage: String = ""
-    @Published var error: String?
+final class ServerDetailViewModel {
+    var resources: ServerResources?
+    var isLoading: Bool = false
+    var isValidating: Bool = false
+    var showValidationResult: Bool = false
+    var validationMessage: String = ""
+    var error: String?
 
     private var client: CoolifyAPIClient?
     private var serverUuid: String?

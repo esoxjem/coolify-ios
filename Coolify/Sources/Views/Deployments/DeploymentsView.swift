@@ -1,14 +1,20 @@
 import SwiftUI
 
 struct DeploymentsView: View {
-    @EnvironmentObject var appState: AppState
-    @StateObject private var viewModel = DeploymentsViewModel()
+    @Environment(AppState.self) private var appState
+    @State private var viewModel = DeploymentsViewModel()
+    @Namespace private var namespace
 
     var body: some View {
         NavigationStack {
             Group {
                 if viewModel.isLoading && viewModel.deployments.isEmpty {
-                    ProgressView("Loading deployments...")
+                    ContentUnavailableView {
+                        Label("Loading", systemImage: "arrow.triangle.2.circlepath")
+                            .symbolEffect(.rotate)
+                    } description: {
+                        Text("Fetching deployments...")
+                    }
                 } else if viewModel.deployments.isEmpty {
                     ContentUnavailableView(
                         "No Deployments",
@@ -19,9 +25,11 @@ struct DeploymentsView: View {
                     List(viewModel.deployments) { deployment in
                         NavigationLink {
                             DeploymentDetailView(deployment: deployment)
+                                .navigationTransition(.zoom(sourceID: deployment.id, in: namespace))
                         } label: {
                             DeploymentRowView(deployment: deployment)
                         }
+                        .matchedTransitionSource(id: deployment.id, in: namespace)
                     }
                     .listStyle(.insetGrouped)
                 }
@@ -64,10 +72,10 @@ struct DeploymentRowView: View {
         HStack(spacing: 12) {
             Image(systemName: deployment.statusIcon)
                 .font(.title2)
-                .foregroundColor(statusColor)
+                .foregroundStyle(statusColor)
                 .frame(width: 44, height: 44)
                 .background(statusColor.opacity(0.1))
-                .cornerRadius(10)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .symbolEffect(.pulse, isActive: deployment.isInProgress)
 
             VStack(alignment: .leading, spacing: 4) {
@@ -82,13 +90,13 @@ struct DeploymentRowView: View {
                             Text(commit)
                         }
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                     }
 
                     if let date = deployment.formattedDate {
                         Text(date)
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
@@ -107,14 +115,14 @@ struct DeploymentRowView: View {
 }
 
 struct DeploymentDetailView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) private var appState
     let deployment: Deployment
-    @StateObject private var viewModel = DeploymentDetailViewModel()
+    @State private var viewModel = DeploymentDetailViewModel()
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                // Header
+                // Header with Mesh Gradient
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
@@ -139,8 +147,23 @@ struct DeploymentDetailView: View {
                     }
                 }
                 .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(12)
+                .background {
+                    MeshGradient(
+                        width: 3,
+                        height: 3,
+                        points: [
+                            [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
+                            [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
+                            [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
+                        ],
+                        colors: [
+                            .blue.opacity(0.1), .cyan.opacity(0.1), .blue.opacity(0.1),
+                            .cyan.opacity(0.05), .blue.opacity(0.1), .cyan.opacity(0.05),
+                            .blue.opacity(0.1), .cyan.opacity(0.1), .blue.opacity(0.1)
+                        ]
+                    )
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 16))
 
                 // Details
                 InfoCard(title: "Details") {
@@ -173,6 +196,7 @@ struct DeploymentDetailView: View {
                                 }
                             } label: {
                                 Image(systemName: "arrow.clockwise")
+                                    .symbolEffect(.rotate, isActive: viewModel.isLoading)
                             }
                         }
 
@@ -184,8 +208,8 @@ struct DeploymentDetailView: View {
                         .frame(maxHeight: 400)
                     }
                     .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(12)
+                    .background(.background.secondary)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
             }
             .padding()
@@ -202,6 +226,7 @@ struct DeploymentDetailView: View {
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     DeploymentsView()
-        .environmentObject(AppState())
+        .environment(appState)
 }

@@ -1,19 +1,41 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) private var appState
     @State private var showAddInstance = false
+    @State private var animateFeatures = false
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 32) {
                 Spacer()
 
-                // Logo and Title
+                // Logo and Title with Mesh Gradient
                 VStack(spacing: 16) {
-                    Image(systemName: "cloud.fill")
-                        .font(.system(size: 80))
-                        .foregroundStyle(.blue.gradient)
+                    ZStack {
+                        MeshGradient(
+                            width: 3,
+                            height: 3,
+                            points: [
+                                [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
+                                [0.0, 0.5], [0.5, 0.5], [1.0, 0.5],
+                                [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
+                            ],
+                            colors: [
+                                .blue.opacity(0.3), .purple.opacity(0.2), .blue.opacity(0.3),
+                                .cyan.opacity(0.2), .blue.opacity(0.4), .purple.opacity(0.2),
+                                .blue.opacity(0.3), .cyan.opacity(0.2), .blue.opacity(0.3)
+                            ]
+                        )
+                        .frame(width: 120, height: 120)
+                        .clipShape(RoundedRectangle(cornerRadius: 30))
+                        .blur(radius: 10)
+
+                        Image(systemName: "cloud.fill")
+                            .font(.system(size: 60))
+                            .foregroundStyle(.white)
+                            .symbolEffect(.breathe.pulse.byLayer, options: .repeating)
+                    }
 
                     Text("Coolify")
                         .font(.largeTitle)
@@ -21,7 +43,7 @@ struct OnboardingView: View {
 
                     Text("Manage your self-hosted PaaS\nfrom anywhere")
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                 }
 
@@ -32,25 +54,33 @@ struct OnboardingView: View {
                     FeatureRow(
                         icon: "server.rack",
                         title: "Monitor Servers",
-                        description: "View server status and resources"
+                        description: "View server status and resources",
+                        animate: animateFeatures,
+                        delay: 0.0
                     )
 
                     FeatureRow(
                         icon: "app.badge",
                         title: "Manage Applications",
-                        description: "Start, stop, and deploy apps"
+                        description: "Start, stop, and deploy apps",
+                        animate: animateFeatures,
+                        delay: 0.1
                     )
 
                     FeatureRow(
                         icon: "cylinder",
                         title: "Database Overview",
-                        description: "Monitor your databases"
+                        description: "Monitor your databases",
+                        animate: animateFeatures,
+                        delay: 0.2
                     )
 
                     FeatureRow(
                         icon: "arrow.triangle.2.circlepath",
                         title: "Track Deployments",
-                        description: "View deployment status and logs"
+                        description: "View deployment status and logs",
+                        animate: animateFeatures,
+                        delay: 0.3
                     )
                 }
                 .padding(.horizontal)
@@ -63,17 +93,35 @@ struct OnboardingView: View {
                 } label: {
                     Text("Get Started")
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
-                        .cornerRadius(12)
+                        .background {
+                            MeshGradient(
+                                width: 2,
+                                height: 2,
+                                points: [
+                                    [0.0, 0.0], [1.0, 0.0],
+                                    [0.0, 1.0], [1.0, 1.0]
+                                ],
+                                colors: [
+                                    .blue, .purple,
+                                    .cyan, .blue
+                                ]
+                            )
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 32)
             }
             .sheet(isPresented: $showAddInstance) {
                 AddInstanceView()
+            }
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.5)) {
+                    animateFeatures = true
+                }
             }
         }
     }
@@ -83,15 +131,20 @@ struct FeatureRow: View {
     let icon: String
     let title: String
     let description: String
+    var animate: Bool = false
+    var delay: Double = 0
+
+    @State private var appeared = false
 
     var body: some View {
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.title2)
-                .foregroundColor(.blue)
+                .foregroundStyle(.blue)
+                .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
                 .background(Color.blue.opacity(0.1))
-                .cornerRadius(10)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -100,13 +153,21 @@ struct FeatureRow: View {
 
                 Text(description)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .opacity(appeared ? 1 : 0)
+        .offset(x: appeared ? 0 : -20)
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.4).delay(delay)) {
+                appeared = true
             }
         }
     }
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     OnboardingView()
-        .environmentObject(AppState())
+        .environment(appState)
 }

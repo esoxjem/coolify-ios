@@ -1,10 +1,12 @@
 import SwiftUI
+import Observation
 
+@Observable
 @MainActor
-final class ServicesViewModel: ObservableObject {
-    @Published var services: [Service] = []
-    @Published var isLoading: Bool = false
-    @Published var error: String?
+final class ServicesViewModel {
+    var services: [Service] = []
+    var isLoading: Bool = false
+    var error: String?
 
     private var client: CoolifyAPIClient?
 

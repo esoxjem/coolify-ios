@@ -1,10 +1,12 @@
 import SwiftUI
+import Observation
 
+@Observable
 @MainActor
-final class DeploymentsViewModel: ObservableObject {
-    @Published var deployments: [Deployment] = []
-    @Published var isLoading: Bool = false
-    @Published var error: String?
+final class DeploymentsViewModel {
+    var deployments: [Deployment] = []
+    var isLoading: Bool = false
+    var error: String?
 
     private var client: CoolifyAPIClient?
 
@@ -32,11 +34,12 @@ final class DeploymentsViewModel: ObservableObject {
     }
 }
 
+@Observable
 @MainActor
-final class DeploymentDetailViewModel: ObservableObject {
-    @Published var deployment: Deployment?
-    @Published var isLoading: Bool = false
-    @Published var error: String?
+final class DeploymentDetailViewModel {
+    var deployment: Deployment?
+    var isLoading: Bool = false
+    var error: String?
 
     private var client: CoolifyAPIClient?
     private var deploymentUuid: String?

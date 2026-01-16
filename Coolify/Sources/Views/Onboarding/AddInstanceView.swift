@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AddInstanceView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
 
     @State private var name: String = ""
@@ -227,6 +227,7 @@ struct StepView: View {
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     AddInstanceView()
-        .environmentObject(AppState())
+        .environment(appState)
 }

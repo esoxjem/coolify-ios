@@ -1,10 +1,12 @@
 import SwiftUI
+import Observation
 
+@Observable
 @MainActor
-final class DatabasesViewModel: ObservableObject {
-    @Published var databases: [Database] = []
-    @Published var isLoading: Bool = false
-    @Published var error: String?
+final class DatabasesViewModel {
+    var databases: [Database] = []
+    var isLoading: Bool = false
+    var error: String?
 
     private var client: CoolifyAPIClient?
 

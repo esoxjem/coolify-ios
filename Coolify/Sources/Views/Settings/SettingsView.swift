@@ -1,12 +1,14 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) private var appState
     @State private var showAddInstance = false
     @State private var showLogoutConfirmation = false
     @State private var pollingInterval: Double = 30
 
     var body: some View {
+        @Bindable var appState = appState
+
         NavigationStack {
             List {
                 // Current Instance
@@ -15,14 +17,15 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
                                 Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
+                                    .foregroundStyle(.green)
+                                    .symbolEffect(.pulse)
                                 Text(instance.name)
                                     .fontWeight(.semibold)
                             }
 
                             Text(instance.baseURL)
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                         }
                         .padding(.vertical, 4)
                     }
@@ -40,14 +43,14 @@ struct SettingsView: View {
 
                                 Text(instance.baseURL)
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundStyle(.secondary)
                             }
 
                             Spacer()
 
                             if instance.id == appState.currentInstance?.id {
                                 Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
+                                    .foregroundStyle(.tint)
                             }
                         }
                         .contentShape(Rectangle())
@@ -92,28 +95,19 @@ struct SettingsView: View {
 
                 // About
                 Section {
-                    HStack {
-                        Text("Version")
-                        Spacer()
-                        Text("1.0.0")
-                            .foregroundColor(.secondary)
-                    }
+                    LabeledContent("Version", value: "1.0.0")
 
                     Link(destination: URL(string: "https://coolify.io/docs")!) {
-                        HStack {
-                            Text("Coolify Documentation")
-                            Spacer()
+                        LabeledContent("Coolify Documentation") {
                             Image(systemName: "arrow.up.right.square")
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                         }
                     }
 
                     Link(destination: URL(string: "https://github.com/coollabsio/coolify")!) {
-                        HStack {
-                            Text("Coolify on GitHub")
-                            Spacer()
+                        LabeledContent("Coolify on GitHub") {
                             Image(systemName: "arrow.up.right.square")
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                         }
                     }
                 } header: {
@@ -154,6 +148,7 @@ struct SettingsView: View {
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     SettingsView()
-        .environmentObject(AppState())
+        .environment(appState)
 }

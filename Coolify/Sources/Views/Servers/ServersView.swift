@@ -1,14 +1,20 @@
 import SwiftUI
 
 struct ServersView: View {
-    @EnvironmentObject var appState: AppState
-    @StateObject private var viewModel = ServersViewModel()
+    @Environment(AppState.self) private var appState
+    @State private var viewModel = ServersViewModel()
+    @Namespace private var namespace
 
     var body: some View {
         NavigationStack {
             Group {
                 if viewModel.isLoading && viewModel.servers.isEmpty {
-                    ProgressView("Loading servers...")
+                    ContentUnavailableView {
+                        Label("Loading", systemImage: "server.rack")
+                            .symbolEffect(.pulse)
+                    } description: {
+                        Text("Fetching servers...")
+                    }
                 } else if viewModel.servers.isEmpty {
                     ContentUnavailableView(
                         "No Servers",
@@ -19,9 +25,11 @@ struct ServersView: View {
                     List(viewModel.servers) { server in
                         NavigationLink {
                             ServerDetailView(server: server)
+                                .navigationTransition(.zoom(sourceID: server.id, in: namespace))
                         } label: {
                             ServerRowView(server: server)
                         }
+                        .matchedTransitionSource(id: server.id, in: namespace)
                     }
                     .listStyle(.insetGrouped)
                 }
@@ -50,15 +58,17 @@ struct ServersView: View {
 
 struct ServerRowView: View {
     let server: Server
+    @State private var appeared = false
 
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: "server.rack")
                 .font(.title2)
-                .foregroundColor(.blue)
+                .foregroundStyle(.blue)
+                .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
                 .background(Color.blue.opacity(0.1))
-                .cornerRadius(10)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(server.name)
@@ -66,7 +76,7 @@ struct ServerRowView: View {
 
                 Text(server.ip)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
 
             Spacer()
@@ -74,6 +84,7 @@ struct ServerRowView: View {
             StatusBadge(status: server.statusText, color: server.statusColor)
         }
         .padding(.vertical, 4)
+        .onAppear { appeared = true }
     }
 }
 
@@ -103,11 +114,12 @@ struct StatusBadge: View {
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
         .background(statusColor.opacity(0.1))
-        .cornerRadius(8)
+        .clipShape(Capsule())
     }
 }
 
 #Preview {
+    @Previewable @State var appState = AppState()
     ServersView()
-        .environmentObject(AppState())
+        .environment(appState)
 }
