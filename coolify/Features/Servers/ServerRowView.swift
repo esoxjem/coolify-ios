@@ -7,7 +7,7 @@ struct ServerRowView: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: "server.rack")
-                .font(.title2)
+                .font(.coolifyMonoTitle2)
                 .foregroundStyle(.coolifyServer)
                 .symbolEffect(.bounce, value: appeared)
                 .frame(width: 44, height: 44)
@@ -16,10 +16,10 @@ struct ServerRowView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(server.name)
-                    .font(.headline)
+                    .font(.coolifyMonoHeadline)
 
                 Text(server.ip)
-                    .font(.caption)
+                    .font(.coolifyMonoCaption)
                     .foregroundStyle(.secondary)
             }
 

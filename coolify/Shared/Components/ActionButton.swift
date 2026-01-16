@@ -14,7 +14,7 @@ struct ActionButton: View {
                     .frame(width: 40, height: 40)
             } else {
                 Image(systemName: icon)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 16, weight: .semibold, design: .monospaced))
                     .foregroundColor(.white)
                     .frame(width: 40, height: 40)
                     .background(color)

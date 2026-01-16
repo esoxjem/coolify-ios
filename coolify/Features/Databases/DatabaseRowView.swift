@@ -17,7 +17,7 @@ struct DatabaseRowView: View {
 
     private var iconView: some View {
         Image(systemName: database.databaseIcon)
-            .font(.title2)
+            .font(.coolifyMonoTitle2)
             .foregroundStyle(.coolifyDatabase)
             .symbolEffect(.bounce, value: appeared)
             .frame(width: 44, height: 44)
@@ -34,14 +34,14 @@ struct DatabaseRowView: View {
 
     private var nameText: some View {
         Text(database.name)
-            .font(.headline)
+            .font(.coolifyMonoHeadline)
     }
 
     @ViewBuilder
     private var typeText: some View {
         if let displayType = database.displayType {
             Text(displayType)
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .foregroundStyle(.secondary)
         }
     }

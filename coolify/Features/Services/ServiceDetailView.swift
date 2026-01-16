@@ -39,7 +39,7 @@ struct ServiceDetailView: View {
 
     private var headerIcon: some View {
         Image(systemName: "square.stack.3d.up")
-            .font(.largeTitle)
+            .font(.coolifyMonoLargeTitle)
             .foregroundStyle(.coolifyPurple)
             .symbolEffect(.bounce, options: .nonRepeating)
     }
@@ -47,7 +47,7 @@ struct ServiceDetailView: View {
     private var headerLabels: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(service.name)
-                .font(.title2)
+                .font(.coolifyMonoTitle2)
                 .fontWeight(.bold)
             statusBadge
         }
@@ -81,7 +81,7 @@ struct ServiceDetailView: View {
 
     private var toggleButtonLabel: some View {
         Image(systemName: toggleIconName)
-            .font(.system(size: 16, weight: .semibold))
+            .font(.system(size: 16, weight: .semibold, design: .monospaced))
             .foregroundStyle(.white)
             .frame(width: 40, height: 40)
             .background(toggleButtonColor)
@@ -119,7 +119,7 @@ struct ServiceDetailView: View {
 
     private var restartButtonLabel: some View {
         Image(systemName: "arrow.clockwise")
-            .font(.system(size: 16, weight: .semibold))
+            .font(.system(size: 16, weight: .semibold, design: .monospaced))
             .foregroundStyle(.white)
             .frame(width: 40, height: 40)
             .background(Color.coolifyWarning)
@@ -168,11 +168,11 @@ struct ServiceDetailView: View {
     private func urlLinkContent(url: String) -> some View {
         HStack {
             Text(url)
-                .font(.subheadline)
+                .font(.coolifyMonoSubheadline)
                 .lineLimit(1)
             Spacer()
             Image(systemName: "arrow.up.right.square")
-                .font(.caption)
+                .font(.coolifyMonoCaption)
         }
     }
 
@@ -187,7 +187,7 @@ struct ServiceDetailView: View {
 
     private var descriptionText: some View {
         Text(service.description ?? "")
-            .font(.subheadline)
+            .font(.coolifyMonoSubheadline)
             .foregroundStyle(.secondary)
     }
 }

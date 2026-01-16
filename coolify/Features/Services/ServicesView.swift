@@ -33,18 +33,22 @@ struct ServicesView: View {
     private var loadingView: some View {
         ContentUnavailableView {
             Label("Loading", systemImage: "square.stack.3d.up")
+                .font(.coolifyMonoHeadline)
                 .symbolEffect(.pulse)
         } description: {
             Text("Fetching services...")
+                .font(.coolifyMonoSubheadline)
         }
     }
 
     private var emptyView: some View {
-        ContentUnavailableView(
-            "No Services",
-            systemImage: "square.stack.3d.up",
-            description: Text("No services found in this instance")
-        )
+        ContentUnavailableView {
+            Label("No Services", systemImage: "square.stack.3d.up")
+                .font(.coolifyMonoHeadline)
+        } description: {
+            Text("No services found in this instance")
+                .font(.coolifyMonoSubheadline)
+        }
     }
 
     private var servicesList: some View {

@@ -13,7 +13,7 @@ struct StatCard: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: icon)
-                    .font(.title2)
+                    .font(.coolifyMonoTitle2)
                     .foregroundStyle(color)
                     .symbolEffect(.bounce, value: appeared)
                 Spacer()
@@ -21,13 +21,13 @@ struct StatCard: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(value)
-                    .font(.title)
+                    .font(.coolifyMonoTitle)
                     .fontWeight(.bold)
                     .contentTransition(.numericText())
                     .animation(.snappy, value: value)
 
                 Text(title)
-                    .font(.caption)
+                    .font(.coolifyMonoCaption)
                     .foregroundStyle(.secondary)
             }
         }

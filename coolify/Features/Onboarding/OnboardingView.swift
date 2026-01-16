@@ -35,17 +35,17 @@ struct OnboardingView: View {
                     .blur(radius: 10)
 
                 Image(systemName: "cloud.fill")
-                    .font(.system(size: 60))
+                    .font(.system(size: 60, weight: .regular, design: .monospaced))
                     .foregroundStyle(.white)
                     .symbolEffect(.breathe.pulse.byLayer, options: .repeating)
             }
 
             Text("Coolify")
-                .font(.largeTitle)
+                .font(.coolifyMonoLargeTitle)
                 .fontWeight(.bold)
 
             Text("Manage your self-hosted PaaS\nfrom anywhere")
-                .font(.subheadline)
+                .font(.coolifyMonoSubheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -66,7 +66,7 @@ struct OnboardingView: View {
             showAddInstance = true
         } label: {
             Text("Get Started")
-                .font(.headline)
+                .font(.coolifyMonoHeadline)
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .padding()

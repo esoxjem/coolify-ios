@@ -18,7 +18,7 @@ struct ApplicationRowView: View {
 
     private var iconView: some View {
         Image(systemName: "app.badge")
-            .font(.title2)
+            .font(.coolifyMonoTitle2)
             .foregroundStyle(.coolifySuccess)
             .symbolEffect(.bounce, value: appeared)
             .frame(width: 44, height: 44)
@@ -29,7 +29,7 @@ struct ApplicationRowView: View {
     private var contentView: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(application.name)
-                .font(.headline)
+                .font(.coolifyMonoHeadline)
             subtitleText
         }
     }
@@ -38,12 +38,12 @@ struct ApplicationRowView: View {
     private var subtitleText: some View {
         if let repo = application.gitRepository {
             Text(repo)
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
         } else if let fqdn = application.displayURL {
             Text(fqdn)
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
         }

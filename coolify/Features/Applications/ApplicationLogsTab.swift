@@ -56,7 +56,10 @@ struct ApplicationLogsTab: View {
     private var loadingView: some View {
         VStack {
             Spacer()
-            ProgressView("Loading logs...")
+            ProgressView {
+                Text("Loading logs...")
+                    .font(.coolifyMonoSubheadline)
+            }
             Spacer()
         }
     }
@@ -64,11 +67,13 @@ struct ApplicationLogsTab: View {
     private var emptyView: some View {
         VStack {
             Spacer()
-            ContentUnavailableView(
-                "No Logs",
-                systemImage: "doc.text",
-                description: Text("No logs available")
-            )
+            ContentUnavailableView {
+                Label("No Logs", systemImage: "doc.text")
+                    .font(.coolifyMonoHeadline)
+            } description: {
+                Text("No logs available")
+                    .font(.coolifyMonoSubheadline)
+            }
             Spacer()
         }
     }
@@ -76,7 +81,7 @@ struct ApplicationLogsTab: View {
     private var logsScrollView: some View {
         ScrollView {
             Text(viewModel.logs)
-                .font(.system(.caption, design: .monospaced))
+                .font(.coolifyMonoCaption)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
                 .textSelection(.enabled)

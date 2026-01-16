@@ -42,17 +42,17 @@ struct ServerDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Image(systemName: "server.rack")
-                    .font(.largeTitle)
+                    .font(.coolifyMonoLargeTitle)
                     .foregroundStyle(.coolifyServer)
                     .symbolEffect(.bounce, options: .nonRepeating)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(server.name)
-                        .font(.title2)
+                        .font(.coolifyMonoTitle2)
                         .fontWeight(.bold)
 
                     Text(server.ip)
-                        .font(.subheadline)
+                        .font(.coolifyMonoSubheadline)
                         .foregroundColor(.secondary)
                 }
 
@@ -92,8 +92,11 @@ struct ServerDetailView: View {
     @ViewBuilder
     private var resourcesSection: some View {
         if viewModel.isLoading {
-            ProgressView("Loading resources...")
-                .padding()
+            ProgressView {
+                Text("Loading resources...")
+                    .font(.coolifyMonoSubheadline)
+            }
+            .padding()
         } else {
             if let apps = viewModel.resources?.applications, !apps.isEmpty {
                 ResourceSection(title: "Applications", count: apps.count) {

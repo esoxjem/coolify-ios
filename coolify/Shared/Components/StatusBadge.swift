@@ -20,7 +20,7 @@ struct StatusBadge: View {
                 .frame(width: 8, height: 8)
 
             Text(status)
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .fontWeight(.medium)
         }
         .padding(.horizontal, 8)

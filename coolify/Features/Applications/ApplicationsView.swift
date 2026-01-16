@@ -40,18 +40,22 @@ struct ApplicationsView: View {
     private var loadingView: some View {
         ContentUnavailableView {
             Label("Loading", systemImage: "app.badge")
+                .font(.coolifyMonoHeadline)
                 .symbolEffect(.pulse)
         } description: {
             Text("Fetching applications...")
+                .font(.coolifyMonoSubheadline)
         }
     }
 
     private var emptyView: some View {
-        ContentUnavailableView(
-            "No Applications",
-            systemImage: "app.badge",
-            description: Text("No applications found in this instance")
-        )
+        ContentUnavailableView {
+            Label("No Applications", systemImage: "app.badge")
+                .font(.coolifyMonoHeadline)
+        } description: {
+            Text("No applications found in this instance")
+                .font(.coolifyMonoSubheadline)
+        }
     }
 
     private var applicationsList: some View {

@@ -136,3 +136,17 @@ extension ShapeStyle where Self == Color {
     static var coolifyService: Color { Color.coolifyService }
     static var coolifyDeployment: Color { Color.coolifyDeployment }
 }
+
+extension Font {
+    static let coolifyMonoLargeTitle = Font.system(.largeTitle, design: .monospaced)
+    static let coolifyMonoTitle = Font.system(.title, design: .monospaced)
+    static let coolifyMonoTitle2 = Font.system(.title2, design: .monospaced)
+    static let coolifyMonoTitle3 = Font.system(.title3, design: .monospaced)
+    static let coolifyMonoHeadline = Font.system(.headline, design: .monospaced)
+    static let coolifyMonoSubheadline = Font.system(.subheadline, design: .monospaced)
+    static let coolifyMonoBody = Font.system(.body, design: .monospaced)
+    static let coolifyMonoCallout = Font.system(.callout, design: .monospaced)
+    static let coolifyMonoFootnote = Font.system(.footnote, design: .monospaced)
+    static let coolifyMonoCaption = Font.system(.caption, design: .monospaced)
+    static let coolifyMonoCaption2 = Font.system(.caption2, design: .monospaced)
+}

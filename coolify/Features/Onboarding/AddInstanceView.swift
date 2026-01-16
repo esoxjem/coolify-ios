@@ -62,7 +62,7 @@ struct AddInstanceView: View {
                     showTokenHelp = true
                 } label: {
                     Label("How to get an API token?", systemImage: "questionmark.circle")
-                        .font(.footnote)
+                        .font(.coolifyMonoFootnote)
                 }
             }
         }

@@ -15,7 +15,7 @@ struct DeploymentRowView: View {
 
     private var statusIcon: some View {
         Image(systemName: deployment.statusIcon)
-            .font(.title2)
+            .font(.coolifyMonoTitle2)
             .foregroundStyle(statusColor)
             .frame(width: 44, height: 44)
             .background(statusColor.opacity(0.1))
@@ -32,7 +32,7 @@ struct DeploymentRowView: View {
 
     private var applicationName: some View {
         Text(deployment.displayName)
-            .font(.headline)
+            .font(.coolifyMonoHeadline)
     }
 
     private var metadataRow: some View {
@@ -47,10 +47,10 @@ struct DeploymentRowView: View {
         if let commit = deployment.shortCommit {
             HStack(spacing: 4) {
                 Image(systemName: "number")
-                    .font(.caption2)
+                    .font(.coolifyMonoCaption2)
                 Text(commit)
             }
-            .font(.caption)
+            .font(.coolifyMonoCaption)
             .foregroundStyle(.secondary)
         }
     }
@@ -59,7 +59,7 @@ struct DeploymentRowView: View {
     private var dateLabel: some View {
         if let date = deployment.formattedDate {
             Text(date)
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .foregroundStyle(.secondary)
         }
     }

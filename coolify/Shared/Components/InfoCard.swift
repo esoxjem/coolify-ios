@@ -7,7 +7,7 @@ struct InfoCard<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .font(.headline)
+                .font(.coolifyMonoHeadline)
 
             VStack(spacing: 8) {
                 content()

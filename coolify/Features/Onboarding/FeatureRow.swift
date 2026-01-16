@@ -25,7 +25,7 @@ struct FeatureRow: View {
 
     private var iconView: some View {
         Image(systemName: icon)
-            .font(.title2)
+            .font(.coolifyMonoTitle2)
             .foregroundStyle(Color.coolifyPurple)
             .symbolEffect(.bounce, value: appeared)
             .frame(width: 44, height: 44)
@@ -36,11 +36,11 @@ struct FeatureRow: View {
     private var labelsView: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
-                .font(.subheadline)
+                .font(.coolifyMonoSubheadline)
                 .fontWeight(.semibold)
 
             Text(description)
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .foregroundStyle(.secondary)
         }
     }

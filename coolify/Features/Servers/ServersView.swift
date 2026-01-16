@@ -11,12 +11,20 @@ struct ServersView: View {
                 if viewModel.isLoading && viewModel.servers.isEmpty {
                     ContentUnavailableView {
                         Label("Loading", systemImage: "server.rack")
+                            .font(.coolifyMonoHeadline)
                             .symbolEffect(.pulse)
                     } description: {
                         Text("Fetching servers...")
+                            .font(.coolifyMonoSubheadline)
                     }
                 } else if viewModel.servers.isEmpty {
-                    ContentUnavailableView("No Servers", systemImage: "server.rack", description: Text("No servers found in this instance"))
+                    ContentUnavailableView {
+                        Label("No Servers", systemImage: "server.rack")
+                            .font(.coolifyMonoHeadline)
+                    } description: {
+                        Text("No servers found in this instance")
+                            .font(.coolifyMonoSubheadline)
+                    }
                 } else {
                     serverList
                 }

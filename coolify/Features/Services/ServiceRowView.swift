@@ -17,7 +17,7 @@ struct ServiceRowView: View {
 
     private var iconView: some View {
         Image(systemName: "square.stack.3d.up")
-            .font(.title2)
+            .font(.coolifyMonoTitle2)
             .foregroundStyle(.coolifyPurple)
             .symbolEffect(.bounce, value: appeared)
             .frame(width: 44, height: 44)
@@ -38,14 +38,14 @@ struct ServiceRowView: View {
 
     private var nameLabel: some View {
         Text(service.name)
-            .font(.headline)
+            .font(.coolifyMonoHeadline)
     }
 
     @ViewBuilder
     private var urlLabel: some View {
         if let url = service.displayURL {
             Text(url)
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
         }

@@ -39,7 +39,7 @@ struct DatabaseDetailView: View {
 
     private var headerIcon: some View {
         Image(systemName: database.databaseIcon)
-            .font(.largeTitle)
+            .font(.coolifyMonoLargeTitle)
             .foregroundStyle(.coolifyDatabase)
             .symbolEffect(.bounce, options: .nonRepeating)
     }
@@ -47,7 +47,7 @@ struct DatabaseDetailView: View {
     private var headerText: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(database.name)
-                .font(.title2)
+                .font(.coolifyMonoTitle2)
                 .fontWeight(.bold)
             headerStatusBadge
         }
@@ -75,7 +75,7 @@ struct DatabaseDetailView: View {
             performToggleAction()
         } label: {
             Image(systemName: toggleButtonIcon)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold, design: .monospaced))
                 .foregroundStyle(.white)
                 .frame(width: 40, height: 40)
                 .background(toggleButtonColor)
@@ -109,7 +109,7 @@ struct DatabaseDetailView: View {
             performRestartAction()
         } label: {
             Image(systemName: "arrow.clockwise")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold, design: .monospaced))
                 .foregroundStyle(.white)
                 .frame(width: 40, height: 40)
                 .background(Color.coolifyWarning)
@@ -176,10 +176,10 @@ struct DatabaseDetailView: View {
         if let internalUrl = database.internalDbUrl {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Internal URL")
-                    .font(.caption)
+                    .font(.coolifyMonoCaption)
                     .foregroundStyle(.secondary)
                 Text(internalUrl)
-                    .font(.caption)
+                    .font(.coolifyMonoCaption)
                     .fontWeight(.medium)
                     .textSelection(.enabled)
             }

@@ -10,8 +10,6 @@ Coolify iOS is a native iOS app for managing [Coolify](https://coolify.io) self-
 
 **Always use the `/xcode-test` skill to build and test the app.** This skill handles simulator setup, build configuration, and test execution automatically.
 
-
-
 ## Architecture
 
 ### State Management Pattern

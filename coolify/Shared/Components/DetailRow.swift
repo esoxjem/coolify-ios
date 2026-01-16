@@ -12,6 +12,6 @@ struct DetailRow: View {
             Text(value)
                 .fontWeight(.medium)
         }
-        .font(.subheadline)
+        .font(.coolifyMonoSubheadline)
     }
 }

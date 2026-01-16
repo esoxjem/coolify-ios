@@ -46,7 +46,10 @@ struct ApplicationEnvVarsTab: View {
     private var loadingView: some View {
         VStack {
             Spacer()
-            ProgressView("Loading environment variables...")
+            ProgressView {
+                Text("Loading environment variables...")
+                    .font(.coolifyMonoSubheadline)
+            }
             Spacer()
         }
     }
@@ -54,11 +57,13 @@ struct ApplicationEnvVarsTab: View {
     private var emptyView: some View {
         VStack {
             Spacer()
-            ContentUnavailableView(
-                "No Environment Variables",
-                systemImage: "list.bullet.rectangle",
-                description: Text("No environment variables configured")
-            )
+            ContentUnavailableView {
+                Label("No Environment Variables", systemImage: "list.bullet.rectangle")
+                    .font(.coolifyMonoHeadline)
+            } description: {
+                Text("No environment variables configured")
+                    .font(.coolifyMonoSubheadline)
+            }
             Spacer()
         }
     }
@@ -79,10 +84,10 @@ struct EnvVarRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(envVar.key)
-                .font(.subheadline)
+                .font(.coolifyMonoSubheadline)
                 .fontWeight(.semibold)
             Text(envVar.value ?? "--------")
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .foregroundColor(.secondary)
                 .lineLimit(2)
         }

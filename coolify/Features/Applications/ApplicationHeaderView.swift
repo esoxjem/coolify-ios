@@ -49,7 +49,7 @@ struct ApplicationHeaderView: View {
                         .lineLimit(1)
                     Image(systemName: "arrow.up.right.square")
                 }
-                .font(.caption)
+                .font(.coolifyMonoCaption)
             }
         }
     }

@@ -43,7 +43,7 @@ struct SettingsView: View {
                             .fontWeight(.semibold)
                     }
                     Text(instance.baseURL)
-                        .font(.caption)
+                        .font(.coolifyMonoCaption)
                         .foregroundStyle(.secondary)
                 }
                 .padding(.vertical, 4)
@@ -82,7 +82,7 @@ struct SettingsView: View {
                 Text(instance.name)
                     .fontWeight(instance.id == appState.currentInstance?.id ? .semibold : .regular)
                 Text(instance.baseURL)
-                    .font(.caption)
+                    .font(.coolifyMonoCaption)
                     .foregroundStyle(.secondary)
             }
             Spacer()

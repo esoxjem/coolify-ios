@@ -40,7 +40,7 @@ struct DeploymentDetailView: View {
     private var titleAndStatus: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(deployment.displayName)
-                .font(.title2)
+                .font(.coolifyMonoTitle2)
                 .fontWeight(.bold)
             statusBadge
         }
@@ -126,7 +126,7 @@ struct DeploymentDetailView: View {
     private var logsHeader: some View {
         HStack {
             Text("Logs")
-                .font(.headline)
+                .font(.coolifyMonoHeadline)
             Spacer()
             refreshButton
         }
@@ -144,7 +144,7 @@ struct DeploymentDetailView: View {
     private var logsContent: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             Text(currentLogs)
-                .font(.system(.caption, design: .monospaced))
+                .font(.coolifyMonoCaption)
                 .textSelection(.enabled)
         }
         .frame(maxHeight: 400)

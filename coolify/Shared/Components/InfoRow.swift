@@ -13,6 +13,6 @@ struct InfoRow: View {
                 .fontWeight(.medium)
                 .lineLimit(1)
         }
-        .font(.subheadline)
+        .font(.coolifyMonoSubheadline)
     }
 }

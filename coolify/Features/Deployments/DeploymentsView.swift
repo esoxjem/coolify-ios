@@ -33,18 +33,22 @@ struct DeploymentsView: View {
     private var loadingView: some View {
         ContentUnavailableView {
             Label("Loading", systemImage: "arrow.triangle.2.circlepath")
+                .font(.coolifyMonoHeadline)
                 .symbolEffect(.rotate)
         } description: {
             Text("Fetching deployments...")
+                .font(.coolifyMonoSubheadline)
         }
     }
 
     private var emptyView: some View {
-        ContentUnavailableView(
-            "No Deployments",
-            systemImage: "arrow.triangle.2.circlepath",
-            description: Text("No active deployments found")
-        )
+        ContentUnavailableView {
+            Label("No Deployments", systemImage: "arrow.triangle.2.circlepath")
+                .font(.coolifyMonoHeadline)
+        } description: {
+            Text("No active deployments found")
+                .font(.coolifyMonoSubheadline)
+        }
     }
 
     private var deploymentsList: some View {

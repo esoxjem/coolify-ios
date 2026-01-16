@@ -2,36 +2,14 @@ import SwiftUI
 
 enum AppTab: String, CaseIterable, Identifiable {
     case dashboard
-    case servers
-    case apps
-    case databases
-    case services
     case deployments
-    case settings
 
     var id: String { rawValue }
-
-    var title: String {
-        switch self {
-        case .dashboard: "Dashboard"
-        case .servers: "Servers"
-        case .apps: "Apps"
-        case .databases: "Databases"
-        case .services: "Services"
-        case .deployments: "Deployments"
-        case .settings: "Settings"
-        }
-    }
 
     var icon: String {
         switch self {
         case .dashboard: "square.grid.2x2"
-        case .servers: "server.rack"
-        case .apps: "app.badge"
-        case .databases: "cylinder"
-        case .services: "square.stack.3d.up"
         case .deployments: "arrow.triangle.2.circlepath"
-        case .settings: "gear"
         }
     }
 }
@@ -42,32 +20,16 @@ struct MainTabView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab(AppTab.dashboard.title, systemImage: AppTab.dashboard.icon, value: .dashboard) {
+            Tab(value: .dashboard) {
                 DashboardView()
+            } label: {
+                Image(systemName: AppTab.dashboard.icon)
             }
 
-            Tab(AppTab.servers.title, systemImage: AppTab.servers.icon, value: .servers) {
-                ServersView()
-            }
-
-            Tab(AppTab.apps.title, systemImage: AppTab.apps.icon, value: .apps) {
-                ApplicationsView()
-            }
-
-            Tab(AppTab.databases.title, systemImage: AppTab.databases.icon, value: .databases) {
-                DatabasesView()
-            }
-
-            Tab(AppTab.services.title, systemImage: AppTab.services.icon, value: .services) {
-                ServicesView()
-            }
-
-            Tab(AppTab.deployments.title, systemImage: AppTab.deployments.icon, value: .deployments) {
+            Tab(value: .deployments) {
                 DeploymentsView()
-            }
-
-            Tab(AppTab.settings.title, systemImage: AppTab.settings.icon, value: .settings) {
-                SettingsView()
+            } label: {
+                Image(systemName: AppTab.deployments.icon)
             }
         }
         .tint(.coolifyPurple)

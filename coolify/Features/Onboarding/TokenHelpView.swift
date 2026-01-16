@@ -8,7 +8,7 @@ struct TokenHelpView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     Text("How to get an API Token")
-                        .font(.title2)
+                        .font(.coolifyMonoTitle2)
                         .fontWeight(.bold)
 
                     stepsSection
@@ -40,10 +40,10 @@ struct TokenHelpView: View {
     private var permissionsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Token Permissions")
-                .font(.headline)
+                .font(.coolifyMonoHeadline)
 
             Text("For full functionality, use a token with read and write permissions. Read-only tokens can view resources but cannot start/stop applications.")
-                .font(.subheadline)
+                .font(.coolifyMonoSubheadline)
                 .foregroundColor(.secondary)
         }
     }
@@ -63,7 +63,7 @@ struct StepView: View {
 
     private var numberBadge: some View {
         Text("\(number)")
-            .font(.headline)
+            .font(.coolifyMonoHeadline)
             .foregroundColor(.white)
             .frame(width: 28, height: 28)
             .background(Color.coolifyPurple)
@@ -73,11 +73,11 @@ struct StepView: View {
     private var labelsView: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.subheadline)
+                .font(.coolifyMonoSubheadline)
                 .fontWeight(.semibold)
 
             Text(description)
-                .font(.caption)
+                .font(.coolifyMonoCaption)
                 .foregroundColor(.secondary)
         }
     }

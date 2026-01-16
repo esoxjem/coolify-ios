@@ -33,18 +33,22 @@ struct DatabasesView: View {
     private var loadingView: some View {
         ContentUnavailableView {
             Label("Loading", systemImage: "cylinder")
+                .font(.coolifyMonoHeadline)
                 .symbolEffect(.pulse)
         } description: {
             Text("Fetching databases...")
+                .font(.coolifyMonoSubheadline)
         }
     }
 
     private var emptyView: some View {
-        ContentUnavailableView(
-            "No Databases",
-            systemImage: "cylinder",
-            description: Text("No databases found in this instance")
-        )
+        ContentUnavailableView {
+            Label("No Databases", systemImage: "cylinder")
+                .font(.coolifyMonoHeadline)
+        } description: {
+            Text("No databases found in this instance")
+                .font(.coolifyMonoSubheadline)
+        }
     }
 
     private var databaseList: some View {

@@ -27,6 +27,15 @@ struct DashboardView: View {
             }
             .contentMargins(.bottom, 20)
             .navigationTitle("Dashboard")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                }
+            }
             .refreshable {
                 await viewModel.refresh()
             }
@@ -79,14 +88,14 @@ struct DashboardView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Recent Deployments")
-                    .font(.headline)
+                    .font(.coolifyMonoHeadline)
                 Spacer()
                 NavigationLink {
                     DeploymentsView()
                         .navigationTransition(.zoom(sourceID: "deployments", in: namespace))
                 } label: {
                     Text("See All")
-                        .font(.subheadline)
+                        .font(.coolifyMonoSubheadline)
                         .foregroundStyle(.coolifyPurple)
                 }
             }
@@ -104,14 +113,14 @@ struct DashboardView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Running Applications")
-                    .font(.headline)
+                    .font(.coolifyMonoHeadline)
                 Spacer()
                 NavigationLink {
                     ApplicationsView()
                         .navigationTransition(.zoom(sourceID: "running-apps", in: namespace))
                 } label: {
                     Text("See All")
-                        .font(.subheadline)
+                        .font(.coolifyMonoSubheadline)
                         .foregroundStyle(.coolifyPurple)
                 }
             }
@@ -128,9 +137,11 @@ struct DashboardView: View {
     private var loadingView: some View {
         ContentUnavailableView {
             Label("Loading", systemImage: "arrow.trianglehead.2.clockwise")
+                .font(.coolifyMonoHeadline)
                 .symbolEffect(.rotate)
         } description: {
             Text("Fetching your resources...")
+                .font(.coolifyMonoSubheadline)
         }
     }
 

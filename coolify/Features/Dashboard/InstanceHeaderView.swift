@@ -9,18 +9,18 @@ struct InstanceHeaderView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(instance.name)
-                        .font(.title3)
+                        .font(.coolifyMonoTitle3)
                         .fontWeight(.semibold)
 
                     Text(instance.baseURL)
-                        .font(.caption)
+                        .font(.coolifyMonoCaption)
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
 
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundStyle(.coolifySuccess)
-                    .font(.title2)
+                    .font(.coolifyMonoTitle2)
                     .symbolEffect(.pulse, options: .repeating, value: isConnected)
             }
         }
