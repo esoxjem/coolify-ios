@@ -18,7 +18,7 @@ struct ServiceRowView: View {
     private var iconView: some View {
         Image(systemName: "square.stack.3d.up")
             .font(.coolifyMonoTitle2)
-            .foregroundStyle(.coolifyPurple)
+            .foregroundStyle(.white)
             .symbolEffect(.bounce, value: appeared)
             .frame(width: 44, height: 44)
             .background(iconBackground)
@@ -26,7 +26,7 @@ struct ServiceRowView: View {
     }
 
     private var iconBackground: some View {
-        Color.coolifyPurple.opacity(0.1)
+        Color.coolifyDark300
     }
 
     private var labelsView: some View {

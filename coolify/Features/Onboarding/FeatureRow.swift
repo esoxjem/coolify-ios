@@ -26,10 +26,10 @@ struct FeatureRow: View {
     private var iconView: some View {
         Image(systemName: icon)
             .font(.coolifyMonoTitle2)
-            .foregroundStyle(Color.coolifyPurple)
+            .foregroundStyle(.white)
             .symbolEffect(.bounce, value: appeared)
             .frame(width: 44, height: 44)
-            .background(Color.coolifyPurple.opacity(0.1))
+            .background(Color.coolifyDark300)
             .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 

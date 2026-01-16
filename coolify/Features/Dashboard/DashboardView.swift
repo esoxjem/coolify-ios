@@ -39,18 +39,13 @@ struct DashboardView: View {
             .refreshable {
                 await viewModel.refresh()
             }
-            .overlay {
-                if viewModel.isLoading && viewModel.serverCount == 0 {
-                    loadingView
-                }
-            }
             .alert("Error", isPresented: errorBinding) {
                 Button("OK") { viewModel.error = nil }
             } message: {
                 Text(viewModel.error ?? "")
             }
         }
-        .tint(.coolifyPurple)
+        .tint(.white)
         .task {
             if let instance = appState.currentInstance {
                 viewModel.setInstance(instance)
@@ -96,7 +91,7 @@ struct DashboardView: View {
                 } label: {
                     Text("See All")
                         .font(.coolifyMonoSubheadline)
-                        .foregroundStyle(.coolifyPurple)
+                        .foregroundStyle(.secondary)
                 }
             }
             .padding(.horizontal)
@@ -121,7 +116,7 @@ struct DashboardView: View {
                 } label: {
                     Text("See All")
                         .font(.coolifyMonoSubheadline)
-                        .foregroundStyle(.coolifyPurple)
+                        .foregroundStyle(.secondary)
                 }
             }
             .padding(.horizontal)
@@ -132,17 +127,6 @@ struct DashboardView: View {
             }
         }
         .matchedTransitionSource(id: "running-apps", in: namespace)
-    }
-
-    private var loadingView: some View {
-        ContentUnavailableView {
-            Label("Loading", systemImage: "arrow.trianglehead.2.clockwise")
-                .font(.coolifyMonoHeadline)
-                .symbolEffect(.rotate)
-        } description: {
-            Text("Fetching your resources...")
-                .font(.coolifyMonoSubheadline)
-        }
     }
 
     private var errorBinding: Binding<Bool> {

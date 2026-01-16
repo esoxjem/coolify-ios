@@ -32,7 +32,7 @@ struct MainTabView: View {
                 Image(systemName: AppTab.deployments.icon)
             }
         }
-        .tint(.coolifyPurple)
+        .tint(.white)
     }
 }
 

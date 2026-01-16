@@ -40,7 +40,7 @@ struct ServiceDetailView: View {
     private var headerIcon: some View {
         Image(systemName: "square.stack.3d.up")
             .font(.coolifyMonoLargeTitle)
-            .foregroundStyle(.coolifyPurple)
+            .foregroundStyle(.white)
             .symbolEffect(.bounce, options: .nonRepeating)
     }
 
