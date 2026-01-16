@@ -57,6 +57,30 @@ actor CoolifyAPIClient {
         self.decoder = JSONDecoder()
     }
 
+    // MARK: - Network Layer
+
+    private func performRequest(_ request: URLRequest) async throws -> (Data, URLResponse) {
+        #if DEBUG
+        let requestId = NetworkLogger.shared.logRequest(request)
+        let startTime = CFAbsoluteTimeGetCurrent()
+        #endif
+
+        do {
+            let result = try await session.data(for: request)
+            #if DEBUG
+            NetworkLogger.shared.logResponse(data: result.0, response: result.1, error: nil,
+                duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
+            #endif
+            return result
+        } catch {
+            #if DEBUG
+            NetworkLogger.shared.logResponse(data: nil, response: nil, error: error,
+                duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
+            #endif
+            throw error
+        }
+    }
+
     private func request<T: Decodable>(endpoint: String, method: String = "GET", body: Data? = nil, queryItems: [URLQueryItem]? = nil) async throws -> T {
         guard var urlComponents = URLComponents(string: "\(instance.apiBaseURL)\(endpoint)") else {
             throw APIError.invalidURL
@@ -80,26 +104,12 @@ actor CoolifyAPIClient {
             request.httpBody = body
         }
 
-        #if DEBUG
-        let requestId = NetworkLogger.shared.logRequest(request)
-        let startTime = CFAbsoluteTimeGetCurrent()
-        #endif
-
         let (data, response): (Data, URLResponse)
         do {
-            (data, response) = try await session.data(for: request)
+            (data, response) = try await performRequest(request)
         } catch {
-            #if DEBUG
-            NetworkLogger.shared.logResponse(data: nil, response: nil, error: error,
-                duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
-            #endif
             throw APIError.networkError(error)
         }
-
-        #if DEBUG
-        NetworkLogger.shared.logResponse(data: data, response: response, error: nil,
-            duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
-        #endif
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
@@ -140,26 +150,12 @@ actor CoolifyAPIClient {
             request.httpBody = body
         }
 
-        #if DEBUG
-        let requestId = NetworkLogger.shared.logRequest(request)
-        let startTime = CFAbsoluteTimeGetCurrent()
-        #endif
-
         let (data, response): (Data, URLResponse)
         do {
-            (data, response) = try await session.data(for: request)
+            (data, response) = try await performRequest(request)
         } catch {
-            #if DEBUG
-            NetworkLogger.shared.logResponse(data: nil, response: nil, error: error,
-                duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
-            #endif
             throw APIError.networkError(error)
         }
-
-        #if DEBUG
-        NetworkLogger.shared.logResponse(data: data, response: response, error: nil,
-            duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
-        #endif
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
@@ -187,26 +183,12 @@ actor CoolifyAPIClient {
         request.httpMethod = "GET"
         request.timeoutInterval = 10
 
-        #if DEBUG
-        let requestId = NetworkLogger.shared.logRequest(request)
-        let startTime = CFAbsoluteTimeGetCurrent()
-        #endif
-
-        let (data, response): (Data, URLResponse)
+        let (_, response): (Data, URLResponse)
         do {
-            (data, response) = try await session.data(for: request)
+            (_, response) = try await performRequest(request)
         } catch {
-            #if DEBUG
-            NetworkLogger.shared.logResponse(data: nil, response: nil, error: error,
-                duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
-            #endif
             throw APIError.networkError(error)
         }
-
-        #if DEBUG
-        NetworkLogger.shared.logResponse(data: data, response: response, error: nil,
-            duration: CFAbsoluteTimeGetCurrent() - startTime, id: requestId)
-        #endif
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse

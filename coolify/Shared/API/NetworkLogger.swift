@@ -24,7 +24,7 @@ final class NetworkLogger: Sendable {
         let url = request.url?.absoluteString ?? "unknown"
         let headers = sanitizeHeaders(request.allHTTPHeaderFields ?? [:])
 
-        logger.debug("[\(id.uuidString.prefix(8), privacy: .public)] --> \(method, privacy: .public) \(url, privacy: .public)")
+        logger.debug("[\(id.uuidString.prefix(8), privacy: .public)] --> \(method, privacy: .public) \(url, privacy: .private)")
         logger.debug("[\(id.uuidString.prefix(8), privacy: .public)] Headers: \(headers, privacy: .public)")
 
         if let body = request.httpBody {
@@ -66,10 +66,20 @@ final class NetworkLogger: Sendable {
     // MARK: - Private Helpers
 
     private func sanitizeHeaders(_ headers: [String: String]) -> String {
+        let sensitiveHeaders: Set<String> = [
+            "authorization", "cookie", "set-cookie", "x-api-key", "x-auth-token"
+        ]
+
         var sanitized = headers
-        if let auth = sanitized["Authorization"], auth.hasPrefix("Bearer ") {
-            let token = String(auth.dropFirst(7))
-            sanitized["Authorization"] = "Bearer \(token.prefix(8))...[REDACTED]"
+        for (key, value) in headers {
+            if sensitiveHeaders.contains(key.lowercased()) {
+                if key.lowercased() == "authorization", value.hasPrefix("Bearer ") {
+                    let token = String(value.dropFirst(7))
+                    sanitized[key] = "Bearer \(token.prefix(8))...[REDACTED]"
+                } else {
+                    sanitized[key] = "[REDACTED]"
+                }
+            }
         }
         return sanitized.map { "\($0): \($1)" }.joined(separator: ", ")
     }
