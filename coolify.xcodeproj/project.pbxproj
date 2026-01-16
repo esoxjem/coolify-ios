@@ -20,6 +20,11 @@
 			path = .claude;
 			sourceTree = "<group>";
 		};
+		60337B342F1A181700888DAD /* docs */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = docs;
+			sourceTree = "<group>";
+		};
 		60E5601C2F19F4AB00706376 /* coolify */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = coolify;
@@ -57,9 +62,10 @@
 			children = (
 				60337B2D2F1A05F600888DAD /* .claude */,
 				60337A272F1A025800888DAD /* CLAUDE.md */,
-				60337B2E2F1A060D00888DAD /* README.md */,
 				60E5601C2F19F4AB00706376 /* coolify */,
+				60337B342F1A181700888DAD /* docs */,
 				60E5601B2F19F4AB00706376 /* Products */,
+				60337B2E2F1A060D00888DAD /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
