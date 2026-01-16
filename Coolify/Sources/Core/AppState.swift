@@ -62,7 +62,7 @@ final class AppState {
     }
 
     func clearError() {
-        self.error = nil
+        error = nil
     }
 }
 

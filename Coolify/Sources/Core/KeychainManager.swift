@@ -8,8 +8,6 @@ final class KeychainManager {
 
     private init() {}
 
-    // MARK: - Instance Management
-
     func saveInstance(_ instance: CoolifyInstance) {
         var instances = getAllInstances()
         if let index = instances.firstIndex(where: { $0.id == instance.id }) {
@@ -39,8 +37,6 @@ final class KeychainManager {
         KeychainHelper.save(key: instancesKey, data: data)
     }
 
-    // MARK: - Current Instance
-
     func setCurrentInstance(_ instance: CoolifyInstance) {
         guard let data = try? JSONEncoder().encode(instance) else { return }
         KeychainHelper.save(key: currentInstanceKey, data: data)
@@ -60,8 +56,6 @@ final class KeychainManager {
     }
 }
 
-// MARK: - Keychain Helper
-
 enum KeychainHelper {
     static func save(key: String, data: Data) {
         let query: [String: Any] = [
@@ -70,7 +64,6 @@ enum KeychainHelper {
             kSecValueData as String: data,
             kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         ]
-
         SecItemDelete(query as CFDictionary)
         SecItemAdd(query as CFDictionary, nil)
     }
@@ -82,7 +75,6 @@ enum KeychainHelper {
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne
         ]
-
         var result: AnyObject?
         SecItemCopyMatching(query as CFDictionary, &result)
         return result as? Data
