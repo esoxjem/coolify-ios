@@ -1,9 +1,11 @@
 import Foundation
 
 struct Application: Identifiable, Codable, Hashable {
-    let id: Int
     let uuid: String
     let name: String
+
+    // Use uuid as Identifiable id
+    var id: String { uuid }
     let description: String?
     let fqdn: String?
     let status: String?
@@ -29,7 +31,7 @@ struct Application: Identifiable, Codable, Hashable {
     let updatedAt: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, uuid, name, description, fqdn, status
+        case uuid, name, description, fqdn, status
         case repositoryProjectId = "repository_project_id"
         case gitRepository = "git_repository"
         case gitBranch = "git_branch"

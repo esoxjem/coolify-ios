@@ -6,24 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Coolify iOS is a native iOS app for managing [Coolify](https://coolify.io) self-hosted instances. It connects to the Coolify REST API to monitor and control servers, applications, databases, services, and deployments.
 
-## Build Commands
+## Build and Test Commands
 
 **Always use the `/xcode-test` skill to build and test the app.** This skill handles simulator setup, build configuration, and test execution automatically.
 
-Alternatively, manual commands:
 
-```bash
-# Build for iOS Simulator
-xcodebuild -project coolify.xcodeproj -scheme coolify -destination 'platform=iOS Simulator,name=iPhone 17' build
-
-# Run tests (when added)
-xcodebuild -project coolify.xcodeproj -scheme coolify -destination 'platform=iOS Simulator,name=iPhone 17' test
-
-# Clean build
-xcodebuild -project coolify.xcodeproj -scheme coolify clean
-```
-
-Or open `coolify.xcodeproj` in Xcode and build with ⌘B.
 
 ## Architecture
 

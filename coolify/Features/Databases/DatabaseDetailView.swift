@@ -191,7 +191,6 @@ struct DatabaseDetailView: View {
     NavigationStack {
         DatabaseDetailView(
             database: Database(
-                id: 1,
                 uuid: "test-uuid",
                 name: "PostgreSQL Production",
                 description: nil,

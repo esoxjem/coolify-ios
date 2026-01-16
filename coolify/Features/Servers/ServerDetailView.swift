@@ -67,11 +67,15 @@ struct ServerDetailView: View {
                 DetailRow(label: "User", value: server.user)
                 DetailRow(label: "Port", value: "\(server.port)")
 
-                if let proxyType = server.proxyType {
-                    DetailRow(label: "Proxy", value: proxyType)
+                if server.proxy?.redirectEnabled == true {
+                    DetailRow(label: "Proxy Redirect", value: "Enabled")
                 }
 
-                if server.isBuildServer == true {
+                if server.isCoolifyHost == true {
+                    DetailRow(label: "Coolify Host", value: "Yes")
+                }
+
+                if server.settings?.isBuildServer == true {
                     DetailRow(label: "Build Server", value: "Yes")
                 }
             }
@@ -126,19 +130,15 @@ struct ServerDetailView: View {
     @Previewable @State var appState = AppState()
     NavigationStack {
         ServerDetailView(server: Server(
-            id: 1,
             uuid: "test-uuid",
             name: "Production Server",
             description: nil,
             ip: "192.168.1.100",
             user: "root",
             port: 22,
-            proxyType: "traefik",
-            validationLogs: nil,
-            logDrainNotificationSent: nil,
-            swarmCluster: nil,
+            proxy: nil,
             settings: nil,
-            isBuildServer: false,
+            isCoolifyHost: true,
             isReachable: true,
             isUsable: true
         ))

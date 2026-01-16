@@ -196,7 +196,6 @@ struct ServiceDetailView: View {
     NavigationStack {
         ServiceDetailView(
             service: Service(
-                id: 1,
                 uuid: "test-uuid",
                 name: "Test Service",
                 description: "A test service description",

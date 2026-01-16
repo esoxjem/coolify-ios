@@ -7,7 +7,7 @@ final class NetworkLogger: Sendable {
     static let shared = NetworkLogger()
 
     private let logger: Logger
-    private let maxBodySize = 1024  // 1KB limit
+    // No size limit - always show full body for debugging
 
     private init() {
         logger = Logger(
@@ -89,17 +89,10 @@ final class NetworkLogger: Sendable {
             return "<binary: \(data.count) bytes>"
         }
 
-        if data.count > maxBodySize {
-            return String(string.prefix(maxBodySize)) + "...[TRUNCATED \(data.count) bytes]"
-        }
-
         // Pretty-print JSON if possible
         if let json = try? JSONSerialization.jsonObject(with: data),
-           let pretty = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted),
+           let pretty = try? JSONSerialization.data(withJSONObject: json, options: [.prettyPrinted, .sortedKeys]),
            let prettyString = String(data: pretty, encoding: .utf8) {
-            if prettyString.count > maxBodySize {
-                return String(prettyString.prefix(maxBodySize)) + "...[TRUNCATED]"
-            }
             return prettyString
         }
 

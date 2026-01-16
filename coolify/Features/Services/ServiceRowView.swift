@@ -64,7 +64,6 @@ struct ServiceRowView: View {
 
 #Preview {
     ServiceRowView(service: Service(
-        id: 1,
         uuid: "test-uuid",
         name: "Test Service",
         description: "A test service",

@@ -1,8 +1,10 @@
 import Foundation
 
 struct Deployment: Identifiable, Codable, Hashable {
-    let id: Int?
     let deploymentUuid: String
+
+    // Use deploymentUuid as Identifiable id
+    var id: String { deploymentUuid }
     let applicationId: Int?
     let applicationName: String?
     let serverName: String?
@@ -19,7 +21,6 @@ struct Deployment: Identifiable, Codable, Hashable {
     let updatedAt: String?
 
     enum CodingKeys: String, CodingKey {
-        case id
         case deploymentUuid = "deployment_uuid"
         case applicationId = "application_id"
         case applicationName = "application_name"

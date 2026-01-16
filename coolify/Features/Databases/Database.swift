@@ -1,9 +1,11 @@
 import Foundation
 
 struct Database: Identifiable, Codable, Hashable {
-    let id: Int
     let uuid: String
     let name: String
+
+    // Use uuid as Identifiable id
+    var id: String { uuid }
     let description: String?
     let type: String?
     let status: String?
@@ -18,7 +20,7 @@ struct Database: Identifiable, Codable, Hashable {
     let updatedAt: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, uuid, name, description, type, status, image
+        case uuid, name, description, type, status, image
         case isPublic = "is_public"
         case publicPort = "public_port"
         case internalDbUrl = "internal_db_url"

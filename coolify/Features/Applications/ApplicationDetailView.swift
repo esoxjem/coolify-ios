@@ -169,7 +169,6 @@ struct ApplicationOverviewTab: View {
     @Previewable @State var appState = AppState()
     NavigationStack {
         ApplicationDetailView(application: Application(
-            id: 1,
             uuid: "test-uuid",
             name: "My App",
             description: nil,

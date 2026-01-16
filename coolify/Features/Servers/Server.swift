@@ -1,30 +1,24 @@
 import Foundation
 
 struct Server: Identifiable, Codable, Hashable {
-    let id: Int
     let uuid: String
     let name: String
     let description: String?
     let ip: String
     let user: String
     let port: Int
-    let proxyType: String?
-    let validationLogs: String?
-    let logDrainNotificationSent: Bool?
-    let swarmCluster: String?
+    let proxy: ServerProxy?
     let settings: ServerSettings?
-    let isBuildServer: Bool?
+    let isCoolifyHost: Bool?
     let isReachable: Bool?
     let isUsable: Bool?
 
+    // Use uuid as the Identifiable id
+    var id: String { uuid }
+
     enum CodingKeys: String, CodingKey {
-        case id, uuid, name, description, ip, user, port
-        case proxyType = "proxy_type"
-        case validationLogs = "validation_logs"
-        case logDrainNotificationSent = "log_drain_notification_sent"
-        case swarmCluster = "swarm_cluster"
-        case settings
-        case isBuildServer = "is_build_server"
+        case uuid, name, description, ip, user, port, proxy, settings
+        case isCoolifyHost = "is_coolify_host"
         case isReachable = "is_reachable"
         case isUsable = "is_usable"
     }
@@ -48,27 +42,47 @@ struct Server: Identifiable, Codable, Hashable {
     }
 }
 
+struct ServerProxy: Codable, Hashable {
+    let redirectEnabled: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case redirectEnabled = "redirect_enabled"
+    }
+}
+
 struct ServerSettings: Codable, Hashable {
     let id: Int?
+    let serverId: Int?
     let concurrentBuilds: Int?
     let dynamicTimeout: Int?
     let forceDisabled: Bool?
-    let isCloudflareEnabled: Bool?
-    let isReachable: Bool?
+    let isBuildServer: Bool?
+    let isCloudflareTunnel: Bool?
+    let isJumpServer: Bool?
     let isSwarmManager: Bool?
     let isSwarmWorker: Bool?
-    let isBuildServer: Bool?
+    let isReachable: Bool?
+    let isUsable: Bool?
+    let isSentinelEnabled: Bool?
+    let isMetricsEnabled: Bool?
+    let isTerminalEnabled: Bool?
 
     enum CodingKeys: String, CodingKey {
         case id
+        case serverId = "server_id"
         case concurrentBuilds = "concurrent_builds"
         case dynamicTimeout = "dynamic_timeout"
         case forceDisabled = "force_disabled"
-        case isCloudflareEnabled = "is_cloudflare_enabled"
-        case isReachable = "is_reachable"
+        case isBuildServer = "is_build_server"
+        case isCloudflareTunnel = "is_cloudflare_tunnel"
+        case isJumpServer = "is_jump_server"
         case isSwarmManager = "is_swarm_manager"
         case isSwarmWorker = "is_swarm_worker"
-        case isBuildServer = "is_build_server"
+        case isReachable = "is_reachable"
+        case isUsable = "is_usable"
+        case isSentinelEnabled = "is_sentinel_enabled"
+        case isMetricsEnabled = "is_metrics_enabled"
+        case isTerminalEnabled = "is_terminal_enabled"
     }
 }
 

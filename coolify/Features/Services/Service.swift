@@ -1,9 +1,11 @@
 import Foundation
 
 struct Service: Identifiable, Codable, Hashable {
-    let id: Int
     let uuid: String
     let name: String
+
+    // Use uuid as Identifiable id
+    var id: String { uuid }
     let description: String?
     let status: String?
     let fqdn: String?
@@ -14,7 +16,7 @@ struct Service: Identifiable, Codable, Hashable {
     let updatedAt: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, uuid, name, description, status, fqdn
+        case uuid, name, description, status, fqdn
         case dockerComposeRaw = "docker_compose_raw"
         case connectToDockerNetwork = "connect_to_docker_network"
         case isContainerLabelEscapeEnabled = "is_container_label_escape_enabled"
