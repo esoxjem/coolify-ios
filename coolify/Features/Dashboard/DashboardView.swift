@@ -64,17 +64,41 @@ struct DashboardView: View {
 
     private var statsGrid: some View {
         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-            StatCard(title: "Servers", value: "\(viewModel.serverCount)", icon: "server.rack", color: .coolifyServer, isLoading: viewModel.isLoading)
-                .matchedTransitionSource(id: "servers", in: namespace)
+            NavigationLink {
+                ServersView()
+                    .navigationTransition(.zoom(sourceID: "servers", in: namespace))
+            } label: {
+                StatCard(title: "Servers", value: "\(viewModel.serverCount)", icon: "server.rack", color: .coolifyServer, isLoading: viewModel.isLoading)
+            }
+            .buttonStyle(.plain)
+            .matchedTransitionSource(id: "servers", in: namespace)
 
-            StatCard(title: "Applications", value: "\(viewModel.applicationCount)", icon: "app.badge", color: .coolifySuccess, isLoading: viewModel.isLoading)
-                .matchedTransitionSource(id: "apps", in: namespace)
+            NavigationLink {
+                ApplicationsView()
+                    .navigationTransition(.zoom(sourceID: "apps", in: namespace))
+            } label: {
+                StatCard(title: "Applications", value: "\(viewModel.applicationCount)", icon: "app.badge", color: .coolifySuccess, isLoading: viewModel.isLoading)
+            }
+            .buttonStyle(.plain)
+            .matchedTransitionSource(id: "apps", in: namespace)
 
-            StatCard(title: "Databases", value: "\(viewModel.databaseCount)", icon: "cylinder", color: .coolifyDatabase, isLoading: viewModel.isLoading)
-                .matchedTransitionSource(id: "databases", in: namespace)
+            NavigationLink {
+                DatabasesView()
+                    .navigationTransition(.zoom(sourceID: "databases", in: namespace))
+            } label: {
+                StatCard(title: "Databases", value: "\(viewModel.databaseCount)", icon: "cylinder", color: .coolifyDatabase, isLoading: viewModel.isLoading)
+            }
+            .buttonStyle(.plain)
+            .matchedTransitionSource(id: "databases", in: namespace)
 
-            StatCard(title: "Services", value: "\(viewModel.serviceCount)", icon: "square.stack.3d.up", color: .coolifyPurple, isLoading: viewModel.isLoading)
-                .matchedTransitionSource(id: "services", in: namespace)
+            NavigationLink {
+                ServicesView()
+                    .navigationTransition(.zoom(sourceID: "services", in: namespace))
+            } label: {
+                StatCard(title: "Services", value: "\(viewModel.serviceCount)", icon: "square.stack.3d.up", color: .coolifyPurple, isLoading: viewModel.isLoading)
+            }
+            .buttonStyle(.plain)
+            .matchedTransitionSource(id: "services", in: namespace)
         }
         .padding(.horizontal)
     }
@@ -97,8 +121,16 @@ struct DashboardView: View {
             .padding(.horizontal)
 
             ForEach(viewModel.recentDeployments.prefix(5)) { deployment in
-                DeploymentRowView(deployment: deployment)
-                    .padding(.horizontal)
+                NavigationLink {
+                    DeploymentDetailView(deployment: deployment)
+                        .navigationTransition(.zoom(sourceID: "deployment-\(deployment.id)", in: namespace))
+                } label: {
+                    DeploymentRowView(deployment: deployment)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .matchedTransitionSource(id: "deployment-\(deployment.id)", in: namespace)
+                .padding(.horizontal)
             }
         }
         .matchedTransitionSource(id: "deployments", in: namespace)
@@ -122,8 +154,16 @@ struct DashboardView: View {
             .padding(.horizontal)
 
             ForEach(viewModel.runningApps.prefix(5)) { app in
-                ApplicationRowView(application: app, showStatus: true)
-                    .padding(.horizontal)
+                NavigationLink {
+                    ApplicationDetailView(application: app)
+                        .navigationTransition(.zoom(sourceID: "app-\(app.id)", in: namespace))
+                } label: {
+                    ApplicationRowView(application: app, showStatus: true)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .matchedTransitionSource(id: "app-\(app.id)", in: namespace)
+                .padding(.horizontal)
             }
         }
         .matchedTransitionSource(id: "running-apps", in: namespace)
