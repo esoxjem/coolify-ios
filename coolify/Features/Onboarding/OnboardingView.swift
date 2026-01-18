@@ -28,17 +28,12 @@ struct OnboardingView: View {
 
     private var heroSection: some View {
         VStack(spacing: 16) {
-            ZStack {
-                MeshGradient.coolifyOnboarding()
-                    .frame(width: 120, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 30))
-                    .blur(radius: 10)
-
-                Image(systemName: "cloud.fill")
-                    .font(.system(size: 60, weight: .regular, design: .monospaced))
-                    .foregroundStyle(.white)
-                    .symbolEffect(.breathe.pulse.byLayer, options: .repeating)
-            }
+            Image("AppLogo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 120, height: 120)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .shadow(color: .coolifyPurple.opacity(0.5), radius: 20, x: 0, y: 10)
 
             Text("Coolify")
                 .font(.coolifyMonoLargeTitle)
