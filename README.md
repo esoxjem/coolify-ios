@@ -1,6 +1,6 @@
 # Coolify for iOS
 
-Manage your self-hosted Coolify instance the iOS app.
+A minimal iOS client for your Coolify instance.
 
 ## Screenshots
 
