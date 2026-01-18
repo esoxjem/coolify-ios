@@ -2,6 +2,15 @@
 
 Manage your self-hosted Coolify instance the iOS app.
 
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/dashboard.png" width="180" />
+  <img src="docs/screenshots/deployments.png" width="180" />
+  <img src="docs/screenshots/deployment-detail.png" width="180" />
+  <img src="docs/screenshots/settings.png" width="180" />
+</p>
+
 ## What is Coolify?
 
 [Coolify](https://coolify.io) is an open-source, self-hostable alternative to platforms like Heroku, Netlify, and Vercel. It lets you deploy applications, databases, and services on your own servers with just a few clicks.
@@ -63,6 +72,7 @@ Access Settings from the tab bar to:
 
 - **Coolify Documentation**: [coolify.io/docs](https://coolify.io/docs)
 - **Coolify GitHub**: [github.com/coollabsio/coolify](https://github.com/coollabsio/coolify)
+- **Follow Development Updates**: [@ES0XJEM on X](https://x.com/ES0XJEM)
 
 ## License
 

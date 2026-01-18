@@ -120,6 +120,15 @@ struct SettingsView: View {
             }
         } header: {
             Text("About")
+        } footer: {
+            HStack {
+                Spacer()
+                Link(destination: URL(string: "https://x.com/ES0XJEM")!) {
+                    Text("Made with 💜 by ES0XJEM")
+                }
+                Spacer()
+            }
+            .padding(.top, 24)
         }
     }
 
