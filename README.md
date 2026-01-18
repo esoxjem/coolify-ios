@@ -1,6 +1,7 @@
 # Coolify for iOS
 
 A minimal iOS client for your Coolify instance.
+<p><b>Join Beta</b> - https://testflight.apple.com/join/Pb6DwcqP</p>
 
 ## Screenshots
 
