@@ -11,10 +11,18 @@ struct SettingsView: View {
 
         NavigationStack {
             List {
-                currentInstanceSection
-                instancesSection
+                if appState.isDemoMode {
+                    demoModeSection
+                } else {
+                    currentInstanceSection
+                    instancesSection
+                }
                 aboutSection
-                logoutSection
+                if appState.isDemoMode {
+                    exitDemoSection
+                } else {
+                    logoutSection
+                }
             }
             .navigationTitle("Settings")
             .sheet(isPresented: $showAddInstance) {
@@ -140,6 +148,52 @@ struct SettingsView: View {
                 HStack {
                     Spacer()
                     Text("Sign Out of All Instances")
+                    Spacer()
+                }
+            }
+        }
+    }
+
+    // MARK: - Demo Mode Sections
+
+    private var demoModeSection: some View {
+        Section {
+            HStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Image(systemName: "sparkles")
+                            .foregroundStyle(.coolifyPurple)
+                        Text("Demo Instance")
+                            .fontWeight(.semibold)
+                    }
+                    Text("Explore the app with sample data")
+                        .font(.coolifyMonoCaption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+            }
+            .padding(.vertical, 4)
+
+            Button {
+                showAddInstance = true
+            } label: {
+                Label("Connect Real Instance", systemImage: "server.rack")
+            }
+        } header: {
+            Text("Demo Mode")
+        } footer: {
+            Text("You're exploring with mock data. Connect a real Coolify instance to manage your servers.")
+        }
+    }
+
+    private var exitDemoSection: some View {
+        Section {
+            Button(role: .destructive) {
+                appState.exitDemoMode()
+            } label: {
+                HStack {
+                    Spacer()
+                    Text("Exit Demo Mode")
                     Spacer()
                 }
             }

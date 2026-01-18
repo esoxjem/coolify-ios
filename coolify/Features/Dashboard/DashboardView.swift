@@ -58,12 +58,16 @@ struct DashboardView: View {
                             servicesSection
                         }
 
-                        if !viewModel.recentDeployments.isEmpty {
-                            recentDeploymentsSection
-                        }
+                        // Hide recent deployments and running apps in demo mode
+                        // to simplify the demo experience
+                        if !(appState.currentInstance?.isDemo ?? false) {
+                            if !viewModel.recentDeployments.isEmpty {
+                                recentDeploymentsSection
+                            }
 
-                        if !viewModel.runningApps.isEmpty {
-                            runningAppsSection
+                            if !viewModel.runningApps.isEmpty {
+                                runningAppsSection
+                            }
                         }
                     }
                 }

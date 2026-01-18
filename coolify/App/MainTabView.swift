@@ -19,20 +19,26 @@ struct MainTabView: View {
     @State private var selectedTab: AppTab = .dashboard
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            Tab(value: .dashboard) {
-                DashboardView()
-            } label: {
-                Image(systemName: AppTab.dashboard.icon)
+        VStack(spacing: 0) {
+            if appState.isDemoMode {
+                DemoBannerView()
             }
 
-            Tab(value: .deployments) {
-                DeploymentsView()
-            } label: {
-                Image(systemName: AppTab.deployments.icon)
+            TabView(selection: $selectedTab) {
+                Tab(value: .dashboard) {
+                    DashboardView()
+                } label: {
+                    Image(systemName: AppTab.dashboard.icon)
+                }
+
+                Tab(value: .deployments) {
+                    DeploymentsView()
+                } label: {
+                    Image(systemName: AppTab.deployments.icon)
+                }
             }
+            .tint(.white)
         }
-        .tint(.white)
     }
 }
 

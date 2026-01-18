@@ -68,6 +68,25 @@ final class AppState {
         isAuthenticated = false
     }
 
+    // MARK: - Demo Mode
+
+    /// Whether the app is currently in demo mode
+    var isDemoMode: Bool {
+        currentInstance?.isDemo ?? false
+    }
+
+    /// Enter demo mode with a pre-configured demo instance
+    func enterDemoMode() {
+        currentInstance = CoolifyInstance.demo
+        isAuthenticated = true
+    }
+
+    /// Exit demo mode and return to onboarding
+    func exitDemoMode() {
+        currentInstance = nil
+        isAuthenticated = false
+    }
+
     func showError(_ error: AppError) {
         self.error = error
     }

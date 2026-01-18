@@ -57,16 +57,26 @@ struct OnboardingView: View {
     }
 
     private var getStartedButton: some View {
-        Button {
-            showAddInstance = true
-        } label: {
-            Text("Get Started")
-                .font(.coolifyMonoHeadline)
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background { LinearGradient.coolifyButton }
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+        VStack(spacing: 16) {
+            Button {
+                showAddInstance = true
+            } label: {
+                Text("Get Started")
+                    .font(.coolifyMonoHeadline)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background { LinearGradient.coolifyButton }
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+
+            Button {
+                appState.enterDemoMode()
+            } label: {
+                Text("Try Demo")
+                    .font(.coolifyMonoSubheadline)
+                    .foregroundStyle(.coolifyPurple)
+            }
         }
         .padding(.horizontal)
         .padding(.bottom, 32)

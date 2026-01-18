@@ -47,6 +47,11 @@ actor CoolifyAPIClient {
     private let session: URLSession
     private let decoder: JSONDecoder
 
+    /// Mutable demo state for simulating actions (start/stop/restart)
+    private var demoApplications: [Application]?
+    private var demoDatabases: [Database]?
+    private var demoServices: [Service]?
+
     init(instance: CoolifyInstance) {
         self.instance = instance
 
@@ -55,6 +60,18 @@ actor CoolifyAPIClient {
         config.timeoutIntervalForResource = 60
         self.session = URLSession(configuration: config)
         self.decoder = JSONDecoder()
+
+        // Initialize mutable demo state if in demo mode
+        if instance.isDemo {
+            self.demoApplications = DemoData.applications
+            self.demoDatabases = DemoData.databases
+            self.demoServices = DemoData.services
+        }
+    }
+
+    /// Helper to simulate network delay for demo mode
+    private func simulateDelay() async {
+        try? await Task.sleep(nanoseconds: UInt64.random(in: 200_000_000...500_000_000))
     }
 
     // MARK: - Network Layer
@@ -175,6 +192,11 @@ actor CoolifyAPIClient {
     }
 
     func healthCheck() async throws -> Bool {
+        if instance.isDemo {
+            await simulateDelay()
+            return true
+        }
+
         guard let url = URL(string: "\(instance.baseURL)/api/health") else {
             throw APIError.invalidURL
         }
@@ -198,49 +220,136 @@ actor CoolifyAPIClient {
     }
 
     func validateConnection() async throws -> Bool {
+        if instance.isDemo {
+            await simulateDelay()
+            return true
+        }
         let _: [Server] = try await request(endpoint: "/servers")
         return true
     }
 
     func getServers() async throws -> [Server] {
-        try await request(endpoint: "/servers")
+        if instance.isDemo {
+            await simulateDelay()
+            return DemoData.servers
+        }
+        return try await request(endpoint: "/servers")
     }
 
     func getServer(uuid: String) async throws -> Server {
-        try await request(endpoint: "/servers/\(uuid)")
+        if instance.isDemo {
+            await simulateDelay()
+            guard let server = DemoData.servers.first(where: { $0.uuid == uuid }) else {
+                throw APIError.notFound
+            }
+            return server
+        }
+        return try await request(endpoint: "/servers/\(uuid)")
     }
 
     func getServerResources(uuid: String) async throws -> ServerResources {
+        if instance.isDemo {
+            await simulateDelay()
+            return DemoData.serverResources(for: uuid)
+        }
         let resources: [ServerResource] = try await request(endpoint: "/servers/\(uuid)/resources")
         return ServerResources(resources: resources)
     }
 
     func validateServer(uuid: String) async throws -> Bool {
+        if instance.isDemo {
+            await simulateDelay()
+            return true
+        }
         try await requestVoid(endpoint: "/servers/\(uuid)/validate")
         return true
     }
 
     func getApplications() async throws -> [Application] {
-        try await request(endpoint: "/applications")
+        if instance.isDemo {
+            await simulateDelay()
+            return demoApplications ?? DemoData.applications
+        }
+        return try await request(endpoint: "/applications")
     }
 
     func getApplication(uuid: String) async throws -> Application {
-        try await request(endpoint: "/applications/\(uuid)")
+        if instance.isDemo {
+            await simulateDelay()
+            let apps = demoApplications ?? DemoData.applications
+            guard let app = apps.first(where: { $0.uuid == uuid }) else {
+                throw APIError.notFound
+            }
+            return app
+        }
+        return try await request(endpoint: "/applications/\(uuid)")
     }
 
     func startApplication(uuid: String) async throws -> DeployResponse {
-        try await request(endpoint: "/applications/\(uuid)/start", method: "GET")
+        if instance.isDemo {
+            await simulateDelay()
+            // Update demo state to running
+            if var apps = demoApplications, let index = apps.firstIndex(where: { $0.uuid == uuid }) {
+                let app = apps[index]
+                apps[index] = Application(
+                    uuid: app.uuid, name: app.name, description: app.description, fqdn: app.fqdn,
+                    status: "running", repositoryProjectId: app.repositoryProjectId,
+                    gitRepository: app.gitRepository, gitBranch: app.gitBranch, gitCommitSha: app.gitCommitSha,
+                    buildPack: app.buildPack, dockerComposeLocation: app.dockerComposeLocation,
+                    dockerfile: app.dockerfile, dockerfileLocation: app.dockerfileLocation,
+                    dockerRegistryImageName: app.dockerRegistryImageName, dockerRegistryImageTag: app.dockerRegistryImageTag,
+                    portsExposes: app.portsExposes, portsMappings: app.portsMappings,
+                    baseDirectory: app.baseDirectory, publishDirectory: app.publishDirectory,
+                    healthCheckEnabled: app.healthCheckEnabled, healthCheckPath: app.healthCheckPath,
+                    limitMemory: app.limitMemory, limitCpus: app.limitCpus,
+                    createdAt: app.createdAt, updatedAt: ISO8601DateFormatter().string(from: Date())
+                )
+                demoApplications = apps
+            }
+            return DeployResponse(message: "Application started", deploymentUuid: "demo-deploy-\(UUID().uuidString.prefix(8))")
+        }
+        return try await request(endpoint: "/applications/\(uuid)/start", method: "GET")
     }
 
     func stopApplication(uuid: String) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            // Update demo state to stopped
+            if var apps = demoApplications, let index = apps.firstIndex(where: { $0.uuid == uuid }) {
+                let app = apps[index]
+                apps[index] = Application(
+                    uuid: app.uuid, name: app.name, description: app.description, fqdn: app.fqdn,
+                    status: "stopped", repositoryProjectId: app.repositoryProjectId,
+                    gitRepository: app.gitRepository, gitBranch: app.gitBranch, gitCommitSha: app.gitCommitSha,
+                    buildPack: app.buildPack, dockerComposeLocation: app.dockerComposeLocation,
+                    dockerfile: app.dockerfile, dockerfileLocation: app.dockerfileLocation,
+                    dockerRegistryImageName: app.dockerRegistryImageName, dockerRegistryImageTag: app.dockerRegistryImageTag,
+                    portsExposes: app.portsExposes, portsMappings: app.portsMappings,
+                    baseDirectory: app.baseDirectory, publishDirectory: app.publishDirectory,
+                    healthCheckEnabled: app.healthCheckEnabled, healthCheckPath: app.healthCheckPath,
+                    limitMemory: app.limitMemory, limitCpus: app.limitCpus,
+                    createdAt: app.createdAt, updatedAt: ISO8601DateFormatter().string(from: Date())
+                )
+                demoApplications = apps
+            }
+            return
+        }
         try await requestVoid(endpoint: "/applications/\(uuid)/stop", method: "GET")
     }
 
     func restartApplication(uuid: String) async throws -> DeployResponse {
-        try await request(endpoint: "/applications/\(uuid)/restart", method: "GET")
+        if instance.isDemo {
+            await simulateDelay()
+            return DeployResponse(message: "Application restarting", deploymentUuid: "demo-deploy-\(UUID().uuidString.prefix(8))")
+        }
+        return try await request(endpoint: "/applications/\(uuid)/restart", method: "GET")
     }
 
     func getApplicationLogs(uuid: String, lines: Int = 100) async throws -> String {
+        if instance.isDemo {
+            await simulateDelay()
+            return DemoData.sampleApplicationLogs
+        }
         let response: ApplicationLogs = try await request(
             endpoint: "/applications/\(uuid)/logs",
             queryItems: [URLQueryItem(name: "lines", value: String(lines))]
@@ -249,68 +358,194 @@ actor CoolifyAPIClient {
     }
 
     func getApplicationEnvs(uuid: String) async throws -> [EnvironmentVariable] {
-        try await request(endpoint: "/applications/\(uuid)/envs")
+        if instance.isDemo {
+            await simulateDelay()
+            return DemoData.environmentVariables
+        }
+        return try await request(endpoint: "/applications/\(uuid)/envs")
     }
 
     func createApplicationEnv(uuid: String, key: String, value: String, isPreview: Bool = false) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            return
+        }
         let body: [String: Any] = ["key": key, "value": value, "is_preview": isPreview]
         let data = try JSONSerialization.data(withJSONObject: body)
         try await requestVoid(endpoint: "/applications/\(uuid)/envs", method: "POST", body: data)
     }
 
     func deleteApplicationEnv(uuid: String, envUuid: String) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            return
+        }
         try await requestVoid(endpoint: "/applications/\(uuid)/envs/\(envUuid)", method: "DELETE")
     }
 
     func getDatabases() async throws -> [Database] {
-        try await request(endpoint: "/databases")
+        if instance.isDemo {
+            await simulateDelay()
+            return demoDatabases ?? DemoData.databases
+        }
+        return try await request(endpoint: "/databases")
     }
 
     func getDatabase(uuid: String) async throws -> Database {
-        try await request(endpoint: "/databases/\(uuid)")
+        if instance.isDemo {
+            await simulateDelay()
+            let dbs = demoDatabases ?? DemoData.databases
+            guard let db = dbs.first(where: { $0.uuid == uuid }) else {
+                throw APIError.notFound
+            }
+            return db
+        }
+        return try await request(endpoint: "/databases/\(uuid)")
     }
 
     func startDatabase(uuid: String) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            if var dbs = demoDatabases, let index = dbs.firstIndex(where: { $0.uuid == uuid }) {
+                let db = dbs[index]
+                dbs[index] = Database(
+                    uuid: db.uuid, name: db.name, description: db.description, type: db.type,
+                    status: "running", image: db.image, isPublic: db.isPublic, publicPort: db.publicPort,
+                    internalDbUrl: db.internalDbUrl, externalDbUrl: db.externalDbUrl,
+                    limitMemory: db.limitMemory, limitCpus: db.limitCpus,
+                    createdAt: db.createdAt, updatedAt: ISO8601DateFormatter().string(from: Date())
+                )
+                demoDatabases = dbs
+            }
+            return
+        }
         try await requestVoid(endpoint: "/databases/\(uuid)/start", method: "GET")
     }
 
     func stopDatabase(uuid: String) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            if var dbs = demoDatabases, let index = dbs.firstIndex(where: { $0.uuid == uuid }) {
+                let db = dbs[index]
+                dbs[index] = Database(
+                    uuid: db.uuid, name: db.name, description: db.description, type: db.type,
+                    status: "stopped", image: db.image, isPublic: db.isPublic, publicPort: db.publicPort,
+                    internalDbUrl: db.internalDbUrl, externalDbUrl: db.externalDbUrl,
+                    limitMemory: db.limitMemory, limitCpus: db.limitCpus,
+                    createdAt: db.createdAt, updatedAt: ISO8601DateFormatter().string(from: Date())
+                )
+                demoDatabases = dbs
+            }
+            return
+        }
         try await requestVoid(endpoint: "/databases/\(uuid)/stop", method: "GET")
     }
 
     func restartDatabase(uuid: String) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            return
+        }
         try await requestVoid(endpoint: "/databases/\(uuid)/restart", method: "GET")
     }
 
     func getServices() async throws -> [Service] {
-        try await request(endpoint: "/services")
+        if instance.isDemo {
+            await simulateDelay()
+            return demoServices ?? DemoData.services
+        }
+        return try await request(endpoint: "/services")
     }
 
     func getService(uuid: String) async throws -> Service {
-        try await request(endpoint: "/services/\(uuid)")
+        if instance.isDemo {
+            await simulateDelay()
+            let services = demoServices ?? DemoData.services
+            guard let service = services.first(where: { $0.uuid == uuid }) else {
+                throw APIError.notFound
+            }
+            return service
+        }
+        return try await request(endpoint: "/services/\(uuid)")
     }
 
     func startService(uuid: String) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            if var services = demoServices, let index = services.firstIndex(where: { $0.uuid == uuid }) {
+                let svc = services[index]
+                services[index] = Service(
+                    uuid: svc.uuid, name: svc.name, description: svc.description,
+                    status: "running", fqdn: svc.fqdn, dockerComposeRaw: svc.dockerComposeRaw,
+                    connectToDockerNetwork: svc.connectToDockerNetwork,
+                    isContainerLabelEscapeEnabled: svc.isContainerLabelEscapeEnabled,
+                    createdAt: svc.createdAt, updatedAt: ISO8601DateFormatter().string(from: Date())
+                )
+                demoServices = services
+            }
+            return
+        }
         try await requestVoid(endpoint: "/services/\(uuid)/start", method: "GET")
     }
 
     func stopService(uuid: String) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            if var services = demoServices, let index = services.firstIndex(where: { $0.uuid == uuid }) {
+                let svc = services[index]
+                services[index] = Service(
+                    uuid: svc.uuid, name: svc.name, description: svc.description,
+                    status: "stopped", fqdn: svc.fqdn, dockerComposeRaw: svc.dockerComposeRaw,
+                    connectToDockerNetwork: svc.connectToDockerNetwork,
+                    isContainerLabelEscapeEnabled: svc.isContainerLabelEscapeEnabled,
+                    createdAt: svc.createdAt, updatedAt: ISO8601DateFormatter().string(from: Date())
+                )
+                demoServices = services
+            }
+            return
+        }
         try await requestVoid(endpoint: "/services/\(uuid)/stop", method: "GET")
     }
 
     func restartService(uuid: String) async throws {
+        if instance.isDemo {
+            await simulateDelay()
+            return
+        }
         try await requestVoid(endpoint: "/services/\(uuid)/restart", method: "GET")
     }
 
     func getDeployments() async throws -> [Deployment] {
-        try await request(endpoint: "/deployments")
+        if instance.isDemo {
+            await simulateDelay()
+            return DemoData.deployments
+        }
+        return try await request(endpoint: "/deployments")
     }
 
     func getDeployment(uuid: String) async throws -> Deployment {
-        try await request(endpoint: "/deployments/\(uuid)")
+        if instance.isDemo {
+            await simulateDelay()
+            guard let deployment = DemoData.deployments.first(where: { $0.deploymentUuid == uuid }) else {
+                throw APIError.notFound
+            }
+            return deployment
+        }
+        return try await request(endpoint: "/deployments/\(uuid)")
     }
 
     func getApplicationDeployments(uuid: String, skip: Int = 0, take: Int = 50) async throws -> [Deployment] {
+        if instance.isDemo {
+            await simulateDelay()
+            // Find the app name from uuid
+            let apps = demoApplications ?? DemoData.applications
+            let appName = apps.first(where: { $0.uuid == uuid })?.name
+            // Filter deployments for this app
+            let filtered = DemoData.deployments.filter { $0.applicationName == appName }
+            let start = min(skip, filtered.count)
+            let end = min(skip + take, filtered.count)
+            return Array(filtered[start..<end])
+        }
         struct DeploymentsResponse: Codable {
             let count: Int
             let deployments: [Deployment]
@@ -326,6 +561,10 @@ actor CoolifyAPIClient {
     }
 
     func deploy(uuid: String? = nil, tag: String? = nil) async throws -> DeployResponse {
+        if instance.isDemo {
+            await simulateDelay()
+            return DeployResponse(message: "Deployment queued", deploymentUuid: "demo-deploy-\(UUID().uuidString.prefix(8))")
+        }
         var queryItems: [URLQueryItem] = []
         if let uuid = uuid {
             queryItems.append(URLQueryItem(name: "uuid", value: uuid))
@@ -337,26 +576,50 @@ actor CoolifyAPIClient {
     }
 
     func getProjects() async throws -> [Project] {
-        try await request(endpoint: "/projects")
+        if instance.isDemo {
+            await simulateDelay()
+            return []  // Projects not critical for demo
+        }
+        return try await request(endpoint: "/projects")
     }
 
     func getProject(uuid: String) async throws -> Project {
-        try await request(endpoint: "/projects/\(uuid)")
+        if instance.isDemo {
+            await simulateDelay()
+            throw APIError.notFound
+        }
+        return try await request(endpoint: "/projects/\(uuid)")
     }
 
     func getTeams() async throws -> [Team] {
-        try await request(endpoint: "/teams")
+        if instance.isDemo {
+            await simulateDelay()
+            return []  // Teams not critical for demo
+        }
+        return try await request(endpoint: "/teams")
     }
 
     func getCurrentTeam() async throws -> Team {
-        try await request(endpoint: "/teams/current")
+        if instance.isDemo {
+            await simulateDelay()
+            throw APIError.notFound
+        }
+        return try await request(endpoint: "/teams/current")
     }
 
     func getTeamMembers(teamId: Int) async throws -> [TeamMember] {
-        try await request(endpoint: "/teams/\(teamId)/members")
+        if instance.isDemo {
+            await simulateDelay()
+            return []
+        }
+        return try await request(endpoint: "/teams/\(teamId)/members")
     }
 
     func getVersion() async throws -> String {
+        if instance.isDemo {
+            await simulateDelay()
+            return "4.0.0-demo"
+        }
         struct VersionResponse: Codable {
             let version: String
         }
