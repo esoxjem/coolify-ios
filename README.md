@@ -1,7 +1,10 @@
-# Coolify for iOS
+# Ciel - Coolify Client
 
-A minimal iOS client for your Coolify instance.
+A minimal iOS client for managing your Coolify instances.
+
 <p><b>Join Beta</b> - https://testflight.apple.com/join/Pb6DwcqP</p>
+
+> **Disclaimer**: Ciel is an unofficial third-party client. It is not affiliated with, endorsed by, or connected to Coolify or coolLabs in any way. Coolify is open-source software licensed under [Apache 2.0](https://github.com/coollabsio/coolify/blob/v4.x/LICENSE).
 
 ## Screenshots
 
@@ -16,7 +19,7 @@ A minimal iOS client for your Coolify instance.
 
 [Coolify](https://coolify.io) is an open-source, self-hostable alternative to platforms like Heroku, Netlify, and Vercel. It lets you deploy applications, databases, and services on your own servers with just a few clicks.
 
-This iOS app gives you the power to monitor and manage your Coolify instance right from your iPhone.
+Ciel gives you the power to monitor and manage your Coolify instance right from your iPhone.
 
 ## Getting Started
 
@@ -34,8 +37,8 @@ This iOS app gives you the power to monitor and manage your Coolify instance rig
    - Copy the token (you'll only see it once!)
 
 2. **Add Your Instance**
-   - Open the Coolify iOS app
-   - Tap **Get Started**
+   - Open Ciel
+   - Tap **Get Started** (or **Try Demo Mode** to explore first)
    - Enter a name for your instance (e.g., "Production Server")
    - Enter your Coolify URL (e.g., `https://coolify.example.com`)
    - Paste your API token
@@ -45,6 +48,16 @@ This iOS app gives you the power to monitor and manage your Coolify instance rig
    - Once connected, you'll see your Dashboard
    - Use the tab bar to navigate between features
    - Pull down on any screen to refresh data
+
+## Demo Mode
+
+Ciel includes a demo mode that lets you explore the app without connecting to a real Coolify instance:
+
+1. Launch the app
+2. On the onboarding screen, tap **Try Demo Mode**
+3. Explore the dashboard, deployments, and settings with sample data
+
+Demo mode uses static sample data and does not connect to any server.
 
 ## Settings & Preferences
 
@@ -71,9 +84,42 @@ Access Settings from the tab bar to:
 
 ## Support
 
+### Getting Help
+
+If you need assistance with Ciel:
+
+1. **Check the FAQ below** for common questions
+2. **Search existing issues** on [GitHub Issues](https://github.com/esoxjem/coolify-ios/issues)
+3. **Open a new issue** if your problem isn't already reported
+
+### FAQ
+
+**Q: Why can't I connect to my Coolify instance?**
+A: Ensure your Coolify URL is correct (including `https://`), your API token is valid, and your server is accessible from your network. Self-signed certificates may cause connection issues.
+
+**Q: How do I get a Coolify API token?**
+A: Log into your Coolify web dashboard, go to Settings → API Tokens, create a new token, and copy it immediately (it's only shown once).
+
+**Q: Does the app work offline?**
+A: No. Ciel requires an active connection to your Coolify instance to display data and perform actions.
+
+**Q: How do I manage multiple Coolify instances?**
+A: Go to Settings, tap "Add Instance", and configure additional instances. You can switch between them by tapping on an instance in the list.
+
+**Q: Is my data secure?**
+A: Yes. API tokens are stored in the iOS Keychain (hardware-encrypted). The app connects directly to your server—no data passes through external servers.
+
+### Contact
+
+- **GitHub Issues**: [Report bugs or request features](https://github.com/esoxjem/coolify-ios/issues)
+- **Developer**: [@ES0XJEM on X](https://x.com/ES0XJEM)
+
+### Coolify Resources
+
+For help with Coolify itself (not this app):
 - **Coolify Documentation**: [coolify.io/docs](https://coolify.io/docs)
 - **Coolify GitHub**: [github.com/coollabsio/coolify](https://github.com/coollabsio/coolify)
-- **Follow Development Updates**: [@ES0XJEM on X](https://x.com/ES0XJEM)
+- **Coolify Discord**: [Join the community](https://discord.com/invite/coollabs-459365938081431553)
 
 ## License
 

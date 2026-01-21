@@ -1,12 +1,14 @@
-# Privacy Policy for Coolify iOS
+# Privacy Policy for Ciel
 
 **Last Updated: January 18, 2026**
 
 ## Introduction
 
-Coolify iOS ("the App") is an open-source mobile application that allows you to manage your self-hosted [Coolify](https://coolify.io) instances. This privacy policy explains how the App handles your information.
+Ciel ("the App") is an open-source mobile application that allows you to manage your self-hosted [Coolify](https://coolify.io) instances. This privacy policy explains how the App handles your information.
 
-**The key principle**: Coolify iOS is designed with privacy at its core. The App does not collect, track, or transmit any data to us or any third parties. All data stays on your device and your own self-hosted Coolify server.
+> **Disclaimer**: Ciel is an unofficial third-party client. It is not affiliated with, endorsed by, or connected to Coolify or coolLabs.
+
+**The key principle**: Ciel is designed with privacy at its core. The App does not collect, track, or transmit any data to us or any third parties. All data stays on your device and your own self-hosted Coolify server.
 
 ## Information We Collect
 
@@ -83,11 +85,11 @@ You have complete control over your data:
 - **View**: All stored instances are visible in the App's settings
 - **Delete**: Remove any instance at any time, which immediately deletes its credentials from Keychain
 - **Delete All**: Logging out or deleting the App removes all stored data
-- **Audit**: The App is [open source](https://github.com/ArunSasiworksolutions/coolify-ios)—you can verify exactly what data is stored and transmitted
+- **Audit**: The App is [open source](https://github.com/esoxjem/coolify-ios)—you can verify exactly what data is stored and transmitted
 
 ## Children's Privacy
 
-Coolify iOS is not designed for or directed at children under 13. The App is a technical tool for managing server infrastructure and requires access to a self-hosted Coolify instance.
+Ciel is not designed for or directed at children under 13. The App is a technical tool for managing server infrastructure and requires access to a self-hosted Coolify instance.
 
 ## Changes to This Policy
 
@@ -99,7 +101,7 @@ If we make changes to this privacy policy, we will:
 
 ## Open Source Transparency
 
-Coolify iOS is open source. You can:
+Ciel is open source. You can:
 
 - Review the complete source code
 - Verify our privacy claims by examining the codebase
@@ -110,7 +112,7 @@ Coolify iOS is open source. You can:
 
 If you have questions about this privacy policy or the App's data practices:
 
-- **GitHub Issues**: [Report an issue or ask a question](https://github.com/ArunSasiworksolutions/coolify-ios/issues)
+- **GitHub Issues**: [Report an issue or ask a question](https://github.com/esoxjem/coolify-ios/issues)
 
 ---
 

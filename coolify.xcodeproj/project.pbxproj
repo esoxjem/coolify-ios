@@ -25,9 +25,9 @@
 			path = docs;
 			sourceTree = "<group>";
 		};
-		60E5601C2F19F4AB00706376 /* coolify */ = {
+		60E5601C2F19F4AB00706376 /* ceil */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = coolify;
+			path = ceil;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -62,7 +62,7 @@
 			children = (
 				60337B2D2F1A05F600888DAD /* .claude */,
 				60337A272F1A025800888DAD /* CLAUDE.md */,
-				60E5601C2F19F4AB00706376 /* coolify */,
+				60E5601C2F19F4AB00706376 /* ceil */,
 				60337B342F1A181700888DAD /* docs */,
 				60E5601B2F19F4AB00706376 /* Products */,
 				60337B2E2F1A060D00888DAD /* README.md */,
@@ -93,7 +93,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				60E5601C2F19F4AB00706376 /* coolify */,
+				60E5601C2F19F4AB00706376 /* ceil */,
 			);
 			name = coolify;
 			packageProductDependencies = (
@@ -298,7 +298,7 @@
 				DEVELOPMENT_TEAM = QTZUF46V7A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Coolify;
+				INFOPLIST_KEY_CFBundleDisplayName = Ciel;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -309,7 +309,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.esoxjem.coolify;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esoxjem.ciel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -331,7 +331,7 @@
 				DEVELOPMENT_TEAM = QTZUF46V7A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Coolify;
+				INFOPLIST_KEY_CFBundleDisplayName = Ciel;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -342,7 +342,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.esoxjem.coolify;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esoxjem.ciel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
