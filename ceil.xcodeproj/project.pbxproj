@@ -9,9 +9,9 @@
 /* Begin PBXFileReference section */
 		60337A272F1A025800888DAD /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 		60337B2E2F1A060D00888DAD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		60B7867B2F19F4D200918028 /* coolify.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = coolify.xcodeproj; sourceTree = "<group>"; };
-		60B78A592F19FA3C00918028 /* coolify.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = coolify.xcodeproj; sourceTree = "<group>"; };
-		60E5601A2F19F4AB00706376 /* coolify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = coolify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		60B7867B2F19F4D200918028 /* ceil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ceil.xcodeproj; sourceTree = "<group>"; };
+		60B78A592F19FA3C00918028 /* ceil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ceil.xcodeproj; sourceTree = "<group>"; };
+		60E5601A2F19F4AB00706376 /* ceil.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ceil.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -72,7 +72,7 @@
 		60E5601B2F19F4AB00706376 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				60E5601A2F19F4AB00706376 /* coolify.app */,
+				60E5601A2F19F4AB00706376 /* ceil.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,9 +80,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		60E560192F19F4AB00706376 /* coolify */ = {
+		60E560192F19F4AB00706376 /* ceil */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 60E560252F19F4AC00706376 /* Build configuration list for PBXNativeTarget "coolify" */;
+			buildConfigurationList = 60E560252F19F4AC00706376 /* Build configuration list for PBXNativeTarget "ceil" */;
 			buildPhases = (
 				60E560162F19F4AB00706376 /* Sources */,
 				60E560172F19F4AB00706376 /* Frameworks */,
@@ -95,11 +95,11 @@
 			fileSystemSynchronizedGroups = (
 				60E5601C2F19F4AB00706376 /* ceil */,
 			);
-			name = coolify;
+			name = ceil;
 			packageProductDependencies = (
 			);
-			productName = coolify;
-			productReference = 60E5601A2F19F4AB00706376 /* coolify.app */;
+			productName = ceil;
+			productReference = 60E5601A2F19F4AB00706376 /* ceil.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -117,7 +117,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 60E560152F19F4AB00706376 /* Build configuration list for PBXProject "coolify" */;
+			buildConfigurationList = 60E560152F19F4AB00706376 /* Build configuration list for PBXProject "ceil" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -132,16 +132,16 @@
 			projectReferences = (
 				{
 					ProductGroup = 60B78A5A2F19FA3C00918028 /* Products */;
-					ProjectRef = 60B78A592F19FA3C00918028 /* coolify.xcodeproj */;
+					ProjectRef = 60B78A592F19FA3C00918028 /* ceil.xcodeproj */;
 				},
 				{
 					ProductGroup = 60B7867C2F19F4D200918028 /* Products */;
-					ProjectRef = 60B7867B2F19F4D200918028 /* coolify.xcodeproj */;
+					ProjectRef = 60B7867B2F19F4D200918028 /* ceil.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				60E560192F19F4AB00706376 /* coolify */,
+				60E560192F19F4AB00706376 /* ceil */,
 			);
 		};
 /* End PBXProject section */
@@ -357,7 +357,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		60E560152F19F4AB00706376 /* Build configuration list for PBXProject "coolify" */ = {
+		60E560152F19F4AB00706376 /* Build configuration list for PBXProject "ceil" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				60E560232F19F4AC00706376 /* Debug */,
@@ -366,7 +366,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		60E560252F19F4AC00706376 /* Build configuration list for PBXNativeTarget "coolify" */ = {
+		60E560252F19F4AC00706376 /* Build configuration list for PBXNativeTarget "ceil" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				60E560262F19F4AC00706376 /* Debug */,
