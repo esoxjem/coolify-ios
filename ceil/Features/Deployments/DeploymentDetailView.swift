@@ -106,52 +106,22 @@ struct DeploymentDetailView: View {
         }
     }
 
-    @ViewBuilder
     private var logsSection: some View {
-        if hasLogs {
-            logsCard
-        }
-    }
-
-    private var logsCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            logsHeader
-            logsContent
+            Text("Logs")
+                .font(.monoHeadline)
+
+            LogsView(
+                logs: currentLogs,
+                isLoading: viewModel.isLoading,
+                onRefresh: { await viewModel.refresh() }
+            )
+            .frame(height: 400)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .padding()
         .background(.background.secondary)
         .clipShape(RoundedRectangle(cornerRadius: 16))
-    }
-
-    private var logsHeader: some View {
-        HStack {
-            Text("Logs")
-                .font(.monoHeadline)
-            Spacer()
-            refreshButton
-        }
-    }
-
-    private var refreshButton: some View {
-        Button {
-            Task { await viewModel.refresh() }
-        } label: {
-            Image(systemName: "arrow.clockwise")
-                .symbolEffect(.rotate, isActive: viewModel.isLoading)
-        }
-    }
-
-    private var logsContent: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            Text(currentLogs)
-                .font(.monoCaption)
-                .textSelection(.enabled)
-        }
-        .frame(maxHeight: 400)
-    }
-
-    private var hasLogs: Bool {
-        !currentLogs.isEmpty
     }
 
     private var currentLogs: String {

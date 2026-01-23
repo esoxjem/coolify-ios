@@ -6,20 +6,19 @@ struct ApplicationLogsTab: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            controlsSection
-            logsContent
+            lineCountPicker
+            LogsView(
+                logs: viewModel.logs,
+                isLoading: viewModel.isLoadingLogs,
+                onRefresh: { await viewModel.loadLogs(lines: lineCount) }
+            )
         }
         .task {
             await viewModel.loadLogs(lines: lineCount)
         }
-    }
-
-    private var controlsSection: some View {
-        HStack {
-            lineCountPicker
-            refreshButton
+        .onChange(of: lineCount) { _, newValue in
+            Task { await viewModel.loadLogs(lines: newValue) }
         }
-        .padding()
     }
 
     private var lineCountPicker: some View {
@@ -30,62 +29,6 @@ struct ApplicationLogsTab: View {
             Text("500").tag(500)
         }
         .pickerStyle(.segmented)
-    }
-
-    private var refreshButton: some View {
-        Button {
-            Task {
-                await viewModel.loadLogs(lines: lineCount)
-            }
-        } label: {
-            Image(systemName: "arrow.clockwise")
-        }
-    }
-
-    @ViewBuilder
-    private var logsContent: some View {
-        if viewModel.isLoadingLogs {
-            loadingView
-        } else if viewModel.logs.isEmpty {
-            emptyView
-        } else {
-            logsScrollView
-        }
-    }
-
-    private var loadingView: some View {
-        VStack {
-            Spacer()
-            ProgressView {
-                Text("Loading logs...")
-                    .font(.monoSubheadline)
-            }
-            Spacer()
-        }
-    }
-
-    private var emptyView: some View {
-        VStack {
-            Spacer()
-            ContentUnavailableView {
-                Label("No Logs", systemImage: "doc.text")
-                    .font(.monoHeadline)
-            } description: {
-                Text("No logs available")
-                    .font(.monoSubheadline)
-            }
-            Spacer()
-        }
-    }
-
-    private var logsScrollView: some View {
-        ScrollView {
-            Text(viewModel.logs)
-                .font(.monoCaption)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .textSelection(.enabled)
-        }
-        .background(Color(.systemBackground))
+        .padding()
     }
 }
